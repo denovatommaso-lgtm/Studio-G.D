@@ -64,8 +64,8 @@ export default function Nosotras() {
 
           <p className="text-[15px] leading-[1.85] text-cream/60 font-light mb-8">
             {t(
-              'Somos Mariana y Lor, dos amigas unidas por la pasión por el diseño, el papel y los detalles que hacen la diferencia. Studio G.D. nació de nuestra convicción de que cada celebración merece papelería que cuente su propia historia.',
-              'We are Mariana and Lor, two friends united by a passion for design, paper, and the details that make all the difference. Studio G.D. was born from our belief that every celebration deserves stationery that tells its own story.'
+              'Somos Mariana y Lor, dos hermanas unidas por la pasión por el diseño, el papel y los detalles que hacen la diferencia. Studio G.D. nació de nuestra convicción de que cada celebración merece papelería que cuente su propia historia.',
+              'We are Mariana and Lor, two sisters united by a passion for design, paper, and the details that make all the difference. Studio G.D. was born from our belief that every celebration deserves stationery that tells its own story.'
             )}
           </p>
 

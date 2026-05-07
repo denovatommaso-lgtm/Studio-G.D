@@ -15,28 +15,28 @@ export default function Preloader({ onComplete }: Props) {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Set bike off-screen before timeline starts
-      gsap.set(bikeRef.current, { x: '-180px' })
+      // Park bike off-screen left before anything starts
+      gsap.set(bikeRef.current, { x: '-260px' })
 
       const tl = gsap.timeline({ defaults: { ease: 'power3.inOut' } })
 
-      // 1. Thin line draws across
+      // 1. Line draws across
       tl.fromTo(lineRef.current,
         { scaleX: 0, transformOrigin: 'left center' },
-        { scaleX: 1, duration: 0.8, ease: 'power2.out' }
+        { scaleX: 1, duration: 0.9, ease: 'power2.out' }
       )
 
-      // 2a. Bike fades in quickly
+      // 2a. Bike fades in
       tl.to(bikeRef.current,
-        { opacity: 1, duration: 0.35, ease: 'power2.out' },
+        { opacity: 1, duration: 0.4, ease: 'power2.out' },
         '-=0.15'
       )
 
-      // 2b. Bike rides across — starts at same moment as fade-in
+      // 2b. Bike rides all the way across — same start as fade-in
       tl.to(bikeRef.current,
         {
-          x: 'calc(100vw + 180px)',
-          duration: 2.6,
+          x: 'calc(100vw + 260px)',
+          duration: 2.8,
           ease: 'power1.inOut',
           onComplete: () => gsap.set(bikeRef.current, { opacity: 0 }),
         },
@@ -45,9 +45,9 @@ export default function Preloader({ onComplete }: Props) {
 
       // 3. Logo reveals while bike is mid-journey
       tl.fromTo(logoRef.current,
-        { opacity: 0, scale: 0.94, y: 12 },
-        { opacity: 1, scale: 1, y: 0, duration: 1.1, ease: 'power3.out' },
-        '-=1.8'
+        { opacity: 0, scale: 0.94, y: 14 },
+        { opacity: 1, scale: 1, y: 0, duration: 1.2, ease: 'power3.out' },
+        '-=1.9'
       )
 
       // 4. Enter button
@@ -58,7 +58,6 @@ export default function Preloader({ onComplete }: Props) {
       )
     }, containerRef)
 
-    // Auto-dismiss after 7s
     const timer = setTimeout(dismiss, 7000)
     return () => { ctx.revert(); clearTimeout(timer) }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -78,44 +77,54 @@ export default function Preloader({ onComplete }: Props) {
       ref={containerRef}
       className="fixed inset-0 z-[9999] bg-navy flex flex-col items-center justify-center overflow-hidden"
     >
-      {/* Thin decorative line */}
+      {/* Decorative line — at 65%, well below the centered logo */}
       <div
         ref={lineRef}
-        className="absolute top-1/2 left-0 w-full h-px bg-taupe/20 -translate-y-8"
+        className="absolute left-0 w-full h-px bg-taupe/20"
+        style={{ top: '65%' }}
       />
 
-      {/* Bike track */}
+      {/* Bike track — NO overflow-hidden so bike enters/exits naturally;
+          outer container clips to viewport. Bottom edge aligned with the line. */}
       <div
-        className="absolute left-0 w-full overflow-hidden pointer-events-none"
-        style={{ top: 'calc(50% - 70px)', height: 120 }}
+        className="absolute left-0 w-full pointer-events-none"
+        style={{ bottom: '35%', height: 210 }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           ref={bikeRef}
           src="/assets/bici.png"
           alt=""
-          className="absolute h-24 w-auto logo-invert"
+          className="absolute h-40 w-auto logo-invert"
           style={{ bottom: 0, opacity: 0 }}
         />
       </div>
 
-      {/* Logo */}
-      <div ref={logoRef} className="flex flex-col items-center gap-3 opacity-0">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/assets/logo-main.png"
-          alt="Studio G.D."
-          className="logo-invert"
-          style={{ width: 'min(320px, 68vw)' }}
-        />
-        <div className="w-8 h-px bg-taupe/40 mt-1" />
+      {/* Logo — same crop trick as Hero: artwork sits at 43–57% of the 1201×1201 PNG */}
+      <div ref={logoRef} className="flex flex-col items-center gap-6 opacity-0">
+        <div
+          className="overflow-hidden"
+          style={{
+            width:  'min(320px, 68vw)',
+            height: 'calc(min(320px, 68vw) * 0.24)',
+          }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/assets/logo-main.png"
+            alt="Studio G.D."
+            className="logo-invert w-full"
+            style={{ marginTop: 'calc(min(320px, 68vw) * -0.38)' }}
+          />
+        </div>
+        <div className="w-8 h-px bg-taupe/40" />
       </div>
 
       {/* Enter button */}
       <button
         ref={btnRef}
         onClick={dismiss}
-        className="mt-12 opacity-0 btn-ghost cursor-pointer"
+        className="mt-10 opacity-0 btn-ghost cursor-pointer"
       >
         {t('Entrar', 'Enter')}
       </button>
