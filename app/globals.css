@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { @apply bg-parchment text-navy font-sans antialiased; }
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: #1e2535; }
+  ::-webkit-scrollbar-thumb { background: #b5aa96; border-radius: 2px; }
+}
+
+@layer utilities {
+  .logo-invert     { filter: brightness(0) invert(1) opacity(0.88); }
+  .logo-invert-dim { filter: brightness(0) invert(1) opacity(0.45); }
+  .logo-taupe      { filter: opacity(0.35); }
+}
+
+@layer components {
+  .btn-ghost {
+    @apply border border-cream/30 text-cream text-[11px] tracking-[0.25em] uppercase
+           px-10 py-3 hover:bg-cream/10 hover:border-cream/60 transition-all duration-300;
+  }
+  .section-label {
+    @apply text-[10px] tracking-[0.35em] uppercase text-taupe mb-4 block;
+  }
+  .section-title {
+    @apply font-serif font-light leading-[1.15] text-navy mb-6;
+    font-size: clamp(32px, 5vw, 52px);
+  }
+  .section-title em { @apply not-italic text-taupe; }
+  .form-input {
+    @apply w-full bg-transparent border-0 border-b border-taupe py-2 text-[13px]
+           text-navy font-sans outline-none placeholder:text-taupe/50
+           focus:border-navy transition-colors duration-200;
+  }
+}
