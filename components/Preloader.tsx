@@ -1,7 +1,6 @@
 'use client'
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
-import Image from 'next/image'
 import { useLang } from '@/context/LangContext'
 
 interface Props { onComplete: () => void }
@@ -16,6 +15,9 @@ export default function Preloader({ onComplete }: Props) {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      // Set bike off-screen before timeline starts
+      gsap.set(bikeRef.current, { x: '-180px' })
+
       const tl = gsap.timeline({ defaults: { ease: 'power3.inOut' } })
 
       // 1. Thin line draws across
@@ -24,17 +26,21 @@ export default function Preloader({ onComplete }: Props) {
         { scaleX: 1, duration: 0.8, ease: 'power2.out' }
       )
 
-      // 2. Bike rides from left to right
-      tl.fromTo(bikeRef.current,
-        { x: '-180px' },
+      // 2a. Bike fades in quickly
+      tl.to(bikeRef.current,
+        { opacity: 1, duration: 0.35, ease: 'power2.out' },
+        '-=0.15'
+      )
+
+      // 2b. Bike rides across — starts at same moment as fade-in
+      tl.to(bikeRef.current,
         {
           x: 'calc(100vw + 180px)',
           duration: 2.6,
           ease: 'power1.inOut',
-          onStart: () => gsap.to(bikeRef.current, { opacity: 1, duration: 0.3 }),
           onComplete: () => gsap.set(bikeRef.current, { opacity: 0 }),
         },
-        '-=0.2'
+        '<'
       )
 
       // 3. Logo reveals while bike is mid-journey
@@ -79,15 +85,17 @@ export default function Preloader({ onComplete }: Props) {
       />
 
       {/* Bike track */}
-      <div className="absolute left-0 w-full overflow-hidden pointer-events-none"
-           style={{ top: 'calc(50% - 70px)', height: 120 }}>
+      <div
+        className="absolute left-0 w-full overflow-hidden pointer-events-none"
+        style={{ top: 'calc(50% - 70px)', height: 120 }}
+      >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           ref={bikeRef}
           src="/assets/bici.png"
           alt=""
-          className="absolute h-24 w-auto opacity-0 logo-invert"
-          style={{ bottom: 0 }}
+          className="absolute h-24 w-auto logo-invert"
+          style={{ bottom: 0, opacity: 0 }}
         />
       </div>
 
