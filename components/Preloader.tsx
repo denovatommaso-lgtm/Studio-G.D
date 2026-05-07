@@ -26,10 +26,9 @@ export default function Preloader({ onComplete }: Props) {
 
       // 2. Bike rides from left to right
       tl.fromTo(bikeRef.current,
-        { x: '-180px', opacity: 0 },
+        { x: '-180px' },
         {
           x: 'calc(100vw + 180px)',
-          opacity: 1,
           duration: 2.6,
           ease: 'power1.inOut',
           onStart: () => gsap.to(bikeRef.current, { opacity: 1, duration: 0.3 }),

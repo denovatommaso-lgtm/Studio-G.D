@@ -70,7 +70,7 @@ export default function Hero() {
       {/* Tartan pattern overlay */}
       <div
         className="absolute inset-0 opacity-[0.04] pointer-events-none"
-        style={{ backgroundImage: "url('/assets/patron.png')", backgroundSize: 320 }}
+        style={{ backgroundImage: "url('/assets/patron.png')", backgroundSize: '320px' }}
       />
 
       {/* Stamp decoration — large, blurred, bottom-right */}

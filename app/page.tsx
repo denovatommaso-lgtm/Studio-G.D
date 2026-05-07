@@ -22,8 +22,8 @@ export default function Home() {
         <Navigation />
         <main>
           <Hero />
-          <Products />
           <Nosotras />
+          <Products />
           <Servicios />
           <Contacto />
         </main>
