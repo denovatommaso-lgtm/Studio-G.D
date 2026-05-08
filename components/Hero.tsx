@@ -181,16 +181,16 @@ export default function Hero() {
           ref={ruleRef}
           className="flex items-center gap-4 mt-5 mb-6 w-full max-w-[340px] opacity-0"
         >
-          <div className="flex-1 h-px bg-taupe/25" />
-          <span className="text-[8px] tracking-[0.48em] uppercase text-taupe/50 font-sans whitespace-nowrap">
-            {t('Papelería · Est. 2023', 'Stationery · Est. 2023')}
+          <div className="flex-1 h-px bg-taupe/45" />
+          <span className="text-[8px] tracking-[0.48em] uppercase text-taupe/75 font-sans whitespace-nowrap">
+            {t('Papelería · Est. 2025', 'Stationery · Est. 2025')}
           </span>
-          <div className="flex-1 h-px bg-taupe/25" />
+          <div className="flex-1 h-px bg-taupe/45" />
         </div>
 
         <p
           ref={taglineRef}
-          className="text-taupe/70 text-[10px] tracking-[0.42em] uppercase opacity-0 mb-9"
+          className="text-cream/75 text-[10px] tracking-[0.42em] uppercase opacity-0 mb-9"
         >
           {t(
             'Papelería personalizada · Hecha con intención',
@@ -201,8 +201,8 @@ export default function Hero() {
         <a
           ref={ctaRef}
           href="#productos"
-          className="border border-taupe/35 text-cream/90 text-[10px] tracking-[0.3em]
-                     uppercase px-12 py-[15px] hover:bg-taupe/10 hover:border-taupe/65
+          className="border border-taupe/55 text-cream text-[10px] tracking-[0.3em]
+                     uppercase px-12 py-[15px] hover:bg-taupe/15 hover:border-taupe/80
                      transition-all duration-300 opacity-0"
         >
           {t('Ver productos', 'View products')}
@@ -213,7 +213,7 @@ export default function Hero() {
       <div
         ref={scrollRef}
         className="absolute bottom-9 left-1/2 -translate-x-1/2 flex flex-col
-                   items-center gap-2 text-taupe/45 opacity-0 pointer-events-none"
+                   items-center gap-2 text-taupe/70 opacity-0 pointer-events-none"
       >
         <span className="text-[9px] tracking-[0.28em] uppercase">Scroll</span>
         <svg className="w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
