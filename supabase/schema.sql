@@ -1,6 +1,6 @@
 -- ─────────────────────────────────────────────────────────────
 -- Studio G.D. — Supabase Schema
--- Run this in your Supabase project → SQL Editor
+-- Run this once in: Supabase Dashboard → SQL Editor → New query
 -- ─────────────────────────────────────────────────────────────
 
 CREATE TABLE IF NOT EXISTS orders (
@@ -16,17 +16,21 @@ CREATE TABLE IF NOT EXISTS orders (
 -- Enable Row Level Security
 ALTER TABLE orders ENABLE ROW LEVEL SECURITY;
 
--- Anyone can INSERT (public form submissions)
+-- Public can INSERT (form submissions from the website)
 CREATE POLICY "public_insert" ON orders
   FOR INSERT WITH CHECK (true);
 
--- Only authenticated users (Mariana & Lor) can read and update
-CREATE POLICY "auth_select" ON orders
-  FOR SELECT USING (auth.role() = 'authenticated');
+-- Anon key can SELECT, UPDATE, DELETE
+-- (The admin panel has its own password-based auth layer via middleware)
+CREATE POLICY "anon_select" ON orders
+  FOR SELECT USING (true);
 
-CREATE POLICY "auth_update" ON orders
-  FOR UPDATE USING (auth.role() = 'authenticated');
+CREATE POLICY "anon_update" ON orders
+  FOR UPDATE USING (true);
 
--- Index for faster queries by status and date
-CREATE INDEX IF NOT EXISTS idx_orders_status ON orders(status);
+CREATE POLICY "anon_delete" ON orders
+  FOR DELETE USING (true);
+
+-- Indexes for faster admin queries
+CREATE INDEX IF NOT EXISTS idx_orders_status     ON orders(status);
 CREATE INDEX IF NOT EXISTS idx_orders_created_at ON orders(created_at DESC);
