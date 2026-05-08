@@ -40,7 +40,7 @@ export default function Servicios() {
   const { lang, t } = useLang()
 
   return (
-    <section id="servicios" className="bg-cream">
+    <section id="servicios" className="bg-taupe">
       <div className="max-w-[1160px] mx-auto px-6 md:px-12 py-24 md:py-32">
 
         <motion.div
@@ -50,9 +50,9 @@ export default function Servicios() {
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
         >
-          <span className="section-label">{t('Lo que hacemos', 'What we do')}</span>
+          <span className="section-label !text-navy/55">{t('Lo que hacemos', 'What we do')}</span>
           <h2 className="section-title">
-            {t('Nuestros', 'Our')} <em>{t('servicios', 'services')}</em>
+            {t('Nuestros', 'Our')} <em className="!text-navy/50">{t('servicios', 'services')}</em>
           </h2>
         </motion.div>
 
