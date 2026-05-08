@@ -129,7 +129,7 @@ export default function Nosotras() {
             <div className="relative w-full overflow-hidden aspect-[4/3]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/assets/9799b8cc-5832-4c4d-bea0-814debca2250.jpg"
+                src="/assets/nosotras.jpg"
                 alt="Mariana y Lor"
                 className="w-full h-full object-cover object-top"
                 style={{ filter: 'sepia(18%) contrast(105%) brightness(0.92)' }}
