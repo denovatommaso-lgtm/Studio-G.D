@@ -116,17 +116,17 @@ export default function Nosotras() {
           {/* Polaroid */}
           <div
             style={{
-              background: 'linear-gradient(160deg, #f7f2ea 0%, #ede8df 100%)',
-              padding: '14px 14px 64px 14px',
+              background: 'linear-gradient(160deg, #f0e9dc 0%, #e4ddd0 100%)',
+              padding: '13px 13px 60px 13px',
               transform: 'rotate(-2deg)',
               maxWidth: 360,
               width: '100%',
               boxShadow: `
-                0 1px 1px rgba(0,0,0,0.22),
-                0 3px 5px rgba(0,0,0,0.18),
-                0 8px 16px rgba(0,0,0,0.14),
-                0 24px 48px rgba(0,0,0,0.10),
-                inset 0 1px 0 rgba(255,255,255,0.6)
+                0 1px 2px rgba(0,0,0,0.25),
+                0 4px 8px rgba(0,0,0,0.20),
+                0 12px 24px rgba(0,0,0,0.16),
+                0 32px 56px rgba(0,0,0,0.10),
+                inset 0 1px 0 rgba(255,255,255,0.55)
               `,
             }}
           >
@@ -136,30 +136,37 @@ export default function Nosotras() {
               <img
                 src="/assets/nosotras.jpg"
                 alt="Mariana y Lorenza"
-                className="w-full h-full object-cover object-top"
-                style={{ filter: 'sepia(10%) contrast(104%) brightness(0.97) saturate(0.88)' }}
+                className="w-full h-full object-cover object-center"
+                style={{ filter: 'sepia(38%) contrast(92%) brightness(0.96) saturate(0.70) hue-rotate(4deg)' }}
               />
-              {/* Subtle inner shadow to make photo feel inset */}
+              {/* Grain overlay for vintage texture */}
               <div
                 className="absolute inset-0 pointer-events-none"
                 style={{
-                  boxShadow: 'inset 0 0 12px rgba(0,0,0,0.18)',
+                  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E")`,
+                  backgroundSize: '180px 180px',
+                  mixBlendMode: 'overlay',
+                  opacity: 0.6,
+                }}
+              />
+              {/* Faded edges vignette */}
+              <div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  boxShadow: 'inset 0 0 28px rgba(60,40,20,0.28)',
                 }}
               />
             </div>
 
-            {/* Polaroid caption tab */}
-            <p
-              className="font-script text-center"
-              style={{
-                fontSize: '22px',
-                color: '#7a6a58',
-                marginTop: '14px',
-                letterSpacing: '0.01em',
-              }}
-            >
-              Mariana &amp; Lorenza
-            </p>
+            {/* Studio G.D logo in polaroid tab */}
+            <div className="flex justify-center items-center" style={{ marginTop: '10px', height: '44px' }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/assets/logo-main.png"
+                alt="Studio G.D."
+                style={{ height: '42px', width: 'auto', filter: 'brightness(0) sepia(1) saturate(3) hue-rotate(340deg) brightness(0.55)', opacity: 0.70 }}
+              />
+            </div>
           </div>
         </motion.div>
 
