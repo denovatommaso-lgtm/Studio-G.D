@@ -42,13 +42,13 @@ export default function Contacto() {
         </span>
 
         <h2 className="section-title !text-cream">
-          {t('¿Lista para crear', 'Ready to create')}{' '}
+          {t('¿Listo para crear', 'Ready to create')}{' '}
           <em>{t('algo especial?', 'something special?')}</em>
         </h2>
 
         <p className="text-[15px] leading-[1.85] text-cream/55 font-light mt-2 mb-12">
           {t(
-            'Cuéntanos tu idea y la hacemos realidad juntas. Escríbenos directamente por WhatsApp o Instagram — respondemos en menos de 24 horas.',
+            'Cuéntanos tu idea y la hacemos realidad. Escríbenos directamente por WhatsApp o Instagram — respondemos en menos de 24 horas.',
             'Tell us your idea and we\'ll bring it to life together. Reach out via WhatsApp or Instagram — we respond in under 24 hours.'
           )}
         </p>
