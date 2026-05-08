@@ -80,22 +80,24 @@ export default function Dashboard() {
     <div className="max-w-5xl mx-auto">
 
       {/* Greeting header */}
-      <div className="mb-8 bg-[#1c2538] border border-white/10 rounded-lg px-6 py-5
-                      flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
         <div>
-          <p className="text-gray-400 text-sm mb-1">{greeting},</p>
-          <h1 className="text-2xl font-semibold text-white">
+          <p className="text-sm text-gray-500 mb-1">{greeting},</p>
+          <h1 className="text-3xl font-semibold text-white">
             {displayName
               ? displayName
-              : <span className="text-gray-400 font-normal italic text-lg">
-                  sin nombre — configúralo en <Link href="/admin/settings" className="underline hover:text-white">Configuración</Link>
+              : <span className="text-gray-500 font-normal italic text-xl">
+                  sin nombre —{' '}
+                  <Link href="/admin/settings" className="underline hover:text-gray-300 transition-colors">
+                    configúralo aquí
+                  </Link>
                 </span>
             }
           </h1>
         </div>
-        <div className="text-right sm:text-right">
-          <p className="text-3xl font-mono font-light text-white tabular-nums">{time}</p>
-          <p className="text-sm text-gray-400 mt-0.5 capitalize">{dateStr}</p>
+        <div className="sm:text-right pb-0.5">
+          <p className="text-2xl font-mono font-light text-white tabular-nums">{time}</p>
+          <p className="text-xs text-gray-500 mt-1 capitalize">{dateStr}</p>
         </div>
       </div>
 
