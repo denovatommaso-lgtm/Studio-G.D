@@ -184,7 +184,6 @@ export default function Products() {
         </motion.div>
       ))}
 
-      <div className="pb-16 md:pb-24" />
     </section>
   )
 }

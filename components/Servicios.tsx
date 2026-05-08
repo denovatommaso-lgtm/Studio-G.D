@@ -40,7 +40,7 @@ export default function Servicios() {
   const { lang, t } = useLang()
 
   return (
-    <section id="servicios" className="bg-taupe">
+    <section id="servicios" className="bg-dark">
       <div className="max-w-[1160px] mx-auto px-6 md:px-12 py-24 md:py-32">
 
         <motion.div
@@ -50,12 +50,12 @@ export default function Servicios() {
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
         >
-          <span className="block text-[10px] tracking-[0.35em] uppercase text-navy/60 mb-4">
+          <span className="block text-[10px] tracking-[0.35em] uppercase text-taupe/70 mb-4">
             {t('Lo que hacemos', 'What we do')}
           </span>
-          <h2 className="font-serif font-light leading-tight text-[26px] md:text-[32px] text-navy mb-0">
+          <h2 className="font-serif font-light leading-tight text-[26px] md:text-[32px] text-cream mb-0">
             {t('Nuestros', 'Our')}{' '}
-            <span className="text-navy/55">{t('servicios', 'services')}</span>
+            <span className="text-taupe">{t('servicios', 'services')}</span>
           </h2>
         </motion.div>
 
@@ -64,13 +64,13 @@ export default function Servicios() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.15 }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-0.5"
+          className="grid grid-cols-1 md:grid-cols-3 gap-px bg-taupe/15"
         >
           {services.map(s => (
             <motion.div
               key={s.nameEs}
               variants={cardVariant}
-              className="group bg-parchment p-12 text-center
+              className="group bg-dark p-12 text-center
                          hover:bg-navy transition-colors duration-500 cursor-default"
               whileHover={{ y: -4 }}
               transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
@@ -79,15 +79,15 @@ export default function Servicios() {
               <img
                 src={s.stamp}
                 alt=""
-                className="w-14 mx-auto mb-6 opacity-45
-                           group-hover:opacity-20 group-hover:invert transition-all duration-500"
+                className="w-14 mx-auto mb-6 opacity-40
+                           group-hover:opacity-60 transition-opacity duration-500"
               />
-              <h3 className="font-serif text-[20px] font-normal text-navy mb-4
+              <h3 className="font-serif text-[20px] font-normal text-cream mb-4
                              group-hover:text-cream transition-colors duration-500">
                 {lang === 'es' ? s.nameEs : s.nameEn}
               </h3>
-              <p className="text-[12px] leading-[1.85] text-navy/55 font-light
-                            group-hover:text-cream/55 transition-colors duration-500">
+              <p className="text-[12px] leading-[1.85] text-cream/45 font-light
+                            group-hover:text-cream/65 transition-colors duration-500">
                 {lang === 'es' ? s.descEs : s.descEn}
               </p>
             </motion.div>
