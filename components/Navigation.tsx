@@ -40,7 +40,7 @@ export default function Navigation() {
           <img
             src="/assets/logo-main.png"
             alt="Studio G.D."
-            className="h-24 w-auto logo-invert transition-opacity hover:opacity-100"
+            className="h-40 w-auto logo-invert transition-opacity hover:opacity-100"
             style={{ opacity: 0.95 }}
           />
         </a>

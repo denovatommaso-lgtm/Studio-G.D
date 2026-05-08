@@ -9,7 +9,7 @@ export default function Footer() {
       <img
         src="/assets/logo-main.png"
         alt="Studio G.D."
-        className="w-20 logo-invert-dim"
+        className="w-36 logo-invert-dim"
       />
       <p className="text-[9px] tracking-[0.15em] text-cream/20 text-center leading-5">
         © {new Date().getFullYear()} Studio G.D. · Crafted with Intention ·{' '}
