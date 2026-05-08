@@ -1,103 +1,20 @@
 'use client'
-import { useEffect, useRef } from 'react'
-import { gsap } from 'gsap'
+import { motion, useReducedMotion } from 'framer-motion'
 import { useLang } from '@/context/LangContext'
 
-export default function Hero () {
-  const logoRef    = useRef<HTMLDivElement>(null)
-  const ruleRef    = useRef<HTMLDivElement>(null)
-  const taglineRef = useRef<HTMLParagraphElement>(null)
-  const ctaRef     = useRef<HTMLAnchorElement>(null)
-  const scrollRef  = useRef<HTMLDivElement>(null)
-  const stamp1Ref  = useRef<HTMLImageElement>(null)
-  const stamp2Ref  = useRef<HTMLImageElement>(null)
-  const { t }      = useLang()
+const fadeUp = {
+  hidden: { opacity: 0, y: 16 },
+  show:   { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] as const } },
+}
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
+const container = {
+  hidden: {},
+  show:   { transition: { staggerChildren: 0.12, delayChildren: 0.1 } },
+}
 
-      // ── Stamps drift in behind content (slow, decorative) ─────────────────
-      gsap.fromTo(
-        [stamp1Ref.current, stamp2Ref.current],
-        { opacity: 0, scale: 0.9 },
-        { opacity: 1, scale: 1, duration: 2.8, stagger: 0.6, ease: 'power2.out', delay: 0.2 }
-      )
-
-      // ── Main content cascade ───────────────────────────────────────────────
-      // Logo appears instantly as the cross-fade begins (BikeIntro logo is
-      // fading out at the same position, so this is a seamless swap).
-      const tl = gsap.timeline()
-
-      tl.fromTo(logoRef.current,
-        { opacity: 0, y: 8, scale: 0.98 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.55, ease: 'power3.out' }
-      )
-
-      tl.fromTo(ruleRef.current,
-        { opacity: 0, y: 10 },
-        { opacity: 1, y: 0, duration: 0.55, ease: 'power2.out' },
-        '-=0.25'
-      )
-
-      tl.fromTo(taglineRef.current,
-        { opacity: 0, y: 10 },
-        { opacity: 1, y: 0, duration: 0.55, ease: 'power2.out' },
-        '-=0.3'
-      )
-
-      tl.fromTo(ctaRef.current,
-        { opacity: 0, y: 8 },
-        { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' },
-        '-=0.3'
-      )
-
-      tl.fromTo(scrollRef.current,
-        { opacity: 0 },
-        { opacity: 1, duration: 0.5 },
-        '-=0.2'
-      )
-
-      // ── Perpetual: logo gentle float ───────────────────────────────────────
-      gsap.to(logoRef.current, {
-        y        : -14,
-        duration : 4.2,
-        ease     : 'sine.inOut',
-        yoyo     : true,
-        repeat   : -1,
-        delay    : 1.2,
-      })
-
-      // ── Perpetual: scroll indicator bounce ────────────────────────────────
-      gsap.to(scrollRef.current, {
-        y        : 7,
-        duration : 1.5,
-        ease     : 'sine.inOut',
-        yoyo     : true,
-        repeat   : -1,
-      })
-
-      // ── Perpetual: stamp slow drift ────────────────────────────────────────
-      gsap.to(stamp1Ref.current, {
-        y        : '-=20',
-        rotation : '+=5',
-        duration : 16,
-        ease     : 'sine.inOut',
-        yoyo     : true,
-        repeat   : -1,
-      })
-      gsap.to(stamp2Ref.current, {
-        y        : '+=14',
-        rotation : '-=4',
-        duration : 12,
-        ease     : 'sine.inOut',
-        yoyo     : true,
-        repeat   : -1,
-        delay    : 2.5,
-      })
-    })
-
-    return () => ctx.revert()
-  }, [])
+export default function Hero() {
+  const { t }   = useLang()
+  const reduced = useReducedMotion()
 
   return (
     <section
@@ -122,56 +39,63 @@ export default function Hero () {
 
       {/* Ghost stamp — top left */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        ref={stamp1Ref}
+      <motion.img
         src="/assets/stamp-cream.png"
         alt=""
-        className="absolute pointer-events-none select-none opacity-0"
+        className="absolute pointer-events-none select-none"
         style={{
           width: 440, top: -70, left: -90,
-          transform: 'rotate(-20deg)',
           filter: 'brightness(0) invert(1) opacity(0.07)',
         }}
+        initial={{ opacity: 0, rotate: -20, scale: 0.92 }}
+        animate={{ opacity: 1, rotate: -20, scale: 1 }}
+        transition={{ duration: 2.4, delay: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
       />
 
       {/* Ghost stamp — bottom right */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        ref={stamp2Ref}
+      <motion.img
         src="/assets/stamp-sage.png"
         alt=""
-        className="absolute pointer-events-none select-none opacity-0"
+        className="absolute pointer-events-none select-none"
         style={{
           width: 400, bottom: -50, right: -70,
-          transform: 'rotate(15deg)',
           filter: 'brightness(0) invert(1) opacity(0.08)',
         }}
+        initial={{ opacity: 0, rotate: 15, scale: 0.92 }}
+        animate={{ opacity: 1, rotate: 15, scale: 1 }}
+        transition={{ duration: 2.4, delay: 1.0, ease: [0.25, 0.1, 0.25, 1] }}
       />
 
-      {/* ── Content ──────────────────────────────────────────────────────────── */}
-      <div className="relative z-10 flex flex-col items-center text-center px-6">
-
-        {/* Logo — same crop as BikeIntro so the cross-fade is a seamless position swap */}
-        <div
-          ref={logoRef}
+      {/* Content cascade */}
+      <motion.div
+        variants={container}
+        initial="hidden"
+        animate="show"
+        className="relative z-10 flex flex-col items-center text-center px-6"
+      >
+        {/* Logo */}
+        <motion.div
+          variants={fadeUp}
           className="overflow-hidden"
           style={{
             width  : 'min(620px, 90vw)',
             height : 'calc(min(620px, 90vw) * 0.24)',
           }}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <motion.img
             src="/assets/logo-main.png"
             alt="Studio G.D. — Crafted with Intention"
             className="logo-invert w-full"
             style={{ marginTop: 'calc(min(620px, 90vw) * -0.38)' }}
+            animate={reduced ? {} : { y: [0, -14, 0] }}
+            transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut', delay: 1.2 }}
           />
-        </div>
+        </motion.div>
 
         {/* Ornamental rule */}
-        <div
-          ref={ruleRef}
+        <motion.div
+          variants={fadeUp}
           className="flex items-center gap-4 mt-5 mb-6 w-full max-w-[340px]"
         >
           <div className="flex-1 h-px bg-taupe/45" />
@@ -179,40 +103,52 @@ export default function Hero () {
             {t('Papelería · Est. 2025', 'Stationery · Est. 2025')}
           </span>
           <div className="flex-1 h-px bg-taupe/45" />
-        </div>
+        </motion.div>
 
-        <p
-          ref={taglineRef}
+        <motion.p
+          variants={fadeUp}
           className="text-cream/75 text-[10px] tracking-[0.42em] uppercase mb-9"
         >
           {t(
             'Papelería personalizada · Hecha con intención',
             'Custom stationery · Made with intention'
           )}
-        </p>
+        </motion.p>
 
-        <a
-          ref={ctaRef}
+        <motion.a
+          variants={fadeUp}
           href="#productos"
           className="border border-taupe/55 text-cream text-[10px] tracking-[0.3em]
                      uppercase px-12 py-[15px] hover:bg-taupe/15 hover:border-taupe/80
                      transition-all duration-300"
+          whileHover={reduced ? {} : { scale: 1.03 }}
+          whileTap={reduced ? {} : { scale: 0.97 }}
         >
           {t('Ver productos', 'View products')}
-        </a>
-      </div>
+        </motion.a>
+      </motion.div>
 
       {/* Scroll indicator */}
-      <div
-        ref={scrollRef}
+      <motion.div
         className="absolute bottom-9 left-1/2 -translate-x-1/2 flex flex-col
                    items-center gap-2 text-taupe/70 pointer-events-none"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.3, duration: 0.7 }}
       >
         <span className="text-[9px] tracking-[0.28em] uppercase">Scroll</span>
-        <svg className="w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <motion.svg
+          className="w-4"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          animate={reduced ? {} : { y: [0, 7, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+        >
           <path d="M12 5v14M5 12l7 7 7-7" />
-        </svg>
-      </div>
+        </motion.svg>
+      </motion.div>
     </section>
   )
 }

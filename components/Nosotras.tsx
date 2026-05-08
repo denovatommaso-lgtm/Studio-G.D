@@ -1,10 +1,6 @@
 'use client'
-import { useEffect, useRef } from 'react'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { motion } from 'framer-motion'
 import { useLang } from '@/context/LangContext'
-
-gsap.registerPlugin(ScrollTrigger)
 
 const values = [
   {
@@ -21,36 +17,41 @@ const values = [
   },
 ]
 
+const slideLeft = {
+  hidden: { opacity: 0, x: -32 },
+  show:   { opacity: 1, x: 0, transition: { duration: 0.75, ease: [0.25, 0.1, 0.25, 1] as const } },
+}
+
+const slideRight = {
+  hidden: { opacity: 0, x: 32 },
+  show:   { opacity: 1, x: 0, transition: { duration: 0.75, ease: [0.25, 0.1, 0.25, 1] as const } },
+}
+
+const listContainer = {
+  hidden: {},
+  show:   { transition: { staggerChildren: 0.1, delayChildren: 0.25 } },
+}
+
+const listItem = {
+  hidden: { opacity: 0, x: -16 },
+  show:   { opacity: 1, x: 0, transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] as const } },
+}
+
 export default function Nosotras() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const textRef    = useRef<HTMLDivElement>(null)
-  const imgRef     = useRef<HTMLDivElement>(null)
   const { lang, t } = useLang()
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(textRef.current,
-        { opacity: 0, x: -30 },
-        { opacity: 1, x: 0, duration: 1, ease: 'power3.out',
-          scrollTrigger: { trigger: sectionRef.current, start: 'top 75%' } }
-      )
-      gsap.fromTo(imgRef.current,
-        { opacity: 0, x: 30 },
-        { opacity: 1, x: 0, duration: 1, ease: 'power3.out', delay: 0.15,
-          scrollTrigger: { trigger: sectionRef.current, start: 'top 75%' } }
-      )
-    }, sectionRef)
-
-    return () => ctx.revert()
-  }, [])
-
   return (
-    <section ref={sectionRef} id="nosotras" className="bg-navy">
+    <section id="nosotras" className="bg-navy">
       <div className="max-w-[1160px] mx-auto px-6 md:px-12 py-24 md:py-32
                       grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 items-center">
 
         {/* Text */}
-        <div ref={textRef} className="opacity-0">
+        <motion.div
+          variants={slideLeft}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+        >
           <span className="section-label !text-taupe">{t('Nosotras', 'About us')}</span>
           <h2 className="section-title !text-cream">
             {t('Detrás de cada', 'Behind every')} <em>{t('pieza', 'piece')}</em>
@@ -73,20 +74,32 @@ export default function Nosotras() {
             Mariana &amp; Lor
           </span>
 
-          <ul className="flex flex-col gap-5">
+          <motion.ul
+            variants={listContainer}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.3 }}
+            className="flex flex-col gap-5"
+          >
             {values.map((v, i) => (
-              <li key={i} className="flex gap-4 items-start">
+              <motion.li key={i} variants={listItem} className="flex gap-4 items-start">
                 <div className="w-1 h-1 rounded-full bg-taupe mt-[9px] flex-shrink-0" />
                 <p className="text-[13px] leading-[1.75] text-cream/55 font-light">
                   {lang === 'es' ? v.es : v.en}
                 </p>
-              </li>
+              </motion.li>
             ))}
-          </ul>
-        </div>
+          </motion.ul>
+        </motion.div>
 
         {/* Photo placeholder */}
-        <div ref={imgRef} className="opacity-0 flex justify-center">
+        <motion.div
+          variants={slideRight}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+          className="flex justify-center"
+        >
           <div className="w-full max-w-[360px] aspect-[3/4] border border-taupe/20
                           bg-taupe/5 flex flex-col items-center justify-center gap-5">
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -95,7 +108,7 @@ export default function Nosotras() {
               {t('Foto de Mariana y Lor', 'Photo of Mariana & Lor')}
             </span>
           </div>
-        </div>
+        </motion.div>
 
       </div>
     </section>

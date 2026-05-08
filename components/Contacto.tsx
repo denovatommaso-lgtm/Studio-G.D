@@ -1,59 +1,53 @@
 'use client'
-import { useEffect, useRef } from 'react'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { motion } from 'framer-motion'
 import { useLang } from '@/context/LangContext'
-
-gsap.registerPlugin(ScrollTrigger)
 
 const WA_NUMBER = process.env.NEXT_PUBLIC_WA_NUMBER  ?? '521XXXXXXXXXX'
 const IG_HANDLE = process.env.NEXT_PUBLIC_IG_HANDLE ?? 'studiogd.stationery'
 
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  show:   { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] as const } },
+}
+
+const container = {
+  hidden: {},
+  show:   { transition: { staggerChildren: 0.12 } },
+}
+
 export default function Contacto() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const innerRef   = useRef<HTMLDivElement>(null)
-  const { t }      = useLang()
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(innerRef.current?.children ?? [],
-        { opacity: 0, y: 24 },
-        {
-          opacity: 1, y: 0,
-          duration: 0.75,
-          stagger: 0.13,
-          ease: 'power3.out',
-          scrollTrigger: { trigger: innerRef.current, start: 'top 80%' },
-        }
-      )
-    }, sectionRef)
-
-    return () => ctx.revert()
-  }, [])
+  const { t } = useLang()
 
   return (
-    <section ref={sectionRef} id="contacto" className="bg-navy">
-      <div ref={innerRef}
-           className="max-w-[700px] mx-auto px-6 md:px-12 py-24 md:py-32
-                      text-center flex flex-col items-center gap-0">
-
-        <span className="section-label !text-taupe">
+    <section id="contacto" className="bg-navy">
+      <motion.div
+        variants={container}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
+        className="max-w-[700px] mx-auto px-6 md:px-12 py-24 md:py-32
+                   text-center flex flex-col items-center gap-0"
+      >
+        <motion.span variants={fadeUp} className="section-label !text-taupe">
           {t('Hablemos', "Let's talk")}
-        </span>
+        </motion.span>
 
-        <h2 className="section-title !text-cream">
+        <motion.h2 variants={fadeUp} className="section-title !text-cream">
           {t('¿Listo para crear', 'Ready to create')}{' '}
           <em>{t('algo especial?', 'something special?')}</em>
-        </h2>
+        </motion.h2>
 
-        <p className="text-[15px] leading-[1.85] text-cream/55 font-light mt-2 mb-12">
+        <motion.p
+          variants={fadeUp}
+          className="text-[15px] leading-[1.85] text-cream/55 font-light mt-2 mb-12"
+        >
           {t(
             'Cuéntanos tu idea y la hacemos realidad. Escríbenos directamente por WhatsApp o Instagram — respondemos en menos de 24 horas.',
-            'Tell us your idea and we\'ll bring it to life together. Reach out via WhatsApp or Instagram — we respond in under 24 hours.'
+            "Tell us your idea and we'll bring it to life together. Reach out via WhatsApp or Instagram — we respond in under 24 hours."
           )}
-        </p>
+        </motion.p>
 
-        <div className="flex flex-wrap gap-4 justify-center">
+        <motion.div variants={fadeUp} className="flex flex-wrap gap-4 justify-center">
           {/* WhatsApp */}
           <a
             href={`https://wa.me/${WA_NUMBER}`}
@@ -85,15 +79,18 @@ export default function Contacto() {
             </svg>
             Instagram
           </a>
-        </div>
+        </motion.div>
 
-        <p className="mt-10 text-[11px] text-taupe/45 tracking-[0.1em]">
+        <motion.p
+          variants={fadeUp}
+          className="mt-10 text-[11px] text-taupe/45 tracking-[0.1em]"
+        >
           {t(
             'También puedes escribirnos directamente desde cada producto ↑',
             'You can also reach out directly from each product above ↑'
           )}
-        </p>
-      </div>
+        </motion.p>
+      </motion.div>
     </section>
   )
 }

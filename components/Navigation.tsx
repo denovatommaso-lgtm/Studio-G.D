@@ -1,6 +1,6 @@
 'use client'
-import { useEffect, useRef, useState } from 'react'
-import { gsap } from 'gsap'
+import { useEffect, useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useLang } from '@/context/LangContext'
 
 const links = [
@@ -10,11 +10,10 @@ const links = [
   { href: '#contacto',  es: 'Contacto',  en: 'Contact'  },
 ]
 
-export default function Navigation () {
+export default function Navigation() {
   const { lang, toggle, t } = useLang()
-  const navRef              = useRef<HTMLElement>(null)
-  const [scrolled, setScrolled]   = useState(false)
-  const [menuOpen, setMenuOpen]   = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60)
@@ -22,30 +21,24 @@ export default function Navigation () {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  useEffect(() => {
-    gsap.fromTo(navRef.current,
-      { y: -20, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out', delay: 0.2 }
-    )
-  }, [])
-
   const closeMenu = () => setMenuOpen(false)
 
   return (
     <>
-      <nav
-        ref={navRef}
+      <motion.nav
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1], delay: 0.2 }}
         className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between
-                    transition-all duration-500 opacity-0
+                    transition-all duration-500
                     ${scrolled
                       ? 'bg-navy/95 backdrop-blur-md py-3 px-6 md:px-12'
                       : 'bg-transparent py-5 px-6 md:px-12'}`}
       >
-        {/* Logo */}
-        <a href="#hero" className="flex items-center">
+        <a href="#hero" className="flex-shrink-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/assets/isotipo.png"
+            src="/assets/logo-main.png"
             alt="Studio G.D."
             className="h-16 w-auto logo-invert transition-opacity hover:opacity-100"
             style={{ opacity: 0.92 }}
@@ -67,7 +60,7 @@ export default function Navigation () {
           ))}
         </ul>
 
-        {/* Right: lang + hamburger */}
+        {/* Right: lang toggle + hamburger */}
         <div className="flex items-center gap-4">
           <button
             onClick={toggle}
@@ -82,7 +75,7 @@ export default function Navigation () {
           <button
             className="md:hidden flex flex-col gap-[5px] p-1"
             onClick={() => setMenuOpen(o => !o)}
-            aria-label="Menu"
+            aria-label={t('Menú', 'Menu')}
           >
             <span className={`block w-6 h-px bg-cream transition-transform duration-300
                               ${menuOpen ? 'rotate-45 translate-y-[6px]' : ''}`} />
@@ -92,26 +85,37 @@ export default function Navigation () {
                               ${menuOpen ? '-rotate-45 -translate-y-[6px]' : ''}`} />
           </button>
         </div>
-      </nav>
+      </motion.nav>
 
-      {/* Mobile menu */}
-      <div
-        className={`fixed inset-0 z-40 bg-navy flex flex-col items-center justify-center
-                    gap-10 transition-opacity duration-300
-                    ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
-      >
-        {links.map(l => (
-          <a
-            key={l.href}
-            href={l.href}
-            onClick={closeMenu}
-            className="text-cream/75 hover:text-cream text-[13px] tracking-[0.28em]
-                       uppercase font-sans transition-colors"
+      {/* Mobile fullscreen menu */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            key="mobile-menu"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.22 }}
+            className="fixed inset-0 z-40 bg-navy flex flex-col items-center justify-center gap-10"
           >
-            {lang === 'es' ? l.es : l.en}
-          </a>
-        ))}
-      </div>
+            {links.map((l, i) => (
+              <motion.a
+                key={l.href}
+                href={l.href}
+                onClick={closeMenu}
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                transition={{ delay: i * 0.07, duration: 0.32, ease: [0.25, 0.1, 0.25, 1] }}
+                className="text-cream/75 hover:text-cream text-[13px] tracking-[0.28em]
+                           uppercase font-sans transition-colors"
+              >
+                {lang === 'es' ? l.es : l.en}
+              </motion.a>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   )
 }

@@ -1,11 +1,7 @@
 'use client'
-import { useEffect, useRef } from 'react'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { motion } from 'framer-motion'
 import ProductCard, { type ProductData } from './ProductCard'
 import { useLang } from '@/context/LangContext'
-
-gsap.registerPlugin(ScrollTrigger)
 
 const PRODUCTS: ProductData[] = [
   {
@@ -117,56 +113,37 @@ const PRODUCTS: ProductData[] = [
   },
 ]
 
+const fadeUp = {
+  hidden: { opacity: 0, y: 28 },
+  show:   { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.25, 0.1, 0.25, 1] as const } },
+}
+
+const introContainer = {
+  hidden: {},
+  show:   { transition: { staggerChildren: 0.13 } },
+}
+
+const gridContainer = {
+  hidden: {},
+  show:   { transition: { staggerChildren: 0.1 } },
+}
+
 export default function Products() {
-  const sectionRef  = useRef<HTMLElement>(null)
-  const introRef    = useRef<HTMLDivElement>(null)
-  const gridRef     = useRef<HTMLDivElement>(null)
-  const { t }       = useLang()
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Intro text reveals
-      gsap.fromTo(introRef.current?.children ?? [],
-        { opacity: 0, y: 28 },
-        {
-          opacity: 1, y: 0,
-          duration: 0.8,
-          stagger: 0.15,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: introRef.current,
-            start: 'top 80%',
-          },
-        }
-      )
-
-      // Cards stagger in
-      gsap.fromTo(gridRef.current?.children ?? [],
-        { opacity: 0, y: 36 },
-        {
-          opacity: 1, y: 0,
-          duration: 0.75,
-          stagger: 0.12,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: gridRef.current,
-            start: 'top 78%',
-          },
-        }
-      )
-    }, sectionRef)
-
-    return () => ctx.revert()
-  }, [])
+  const { t } = useLang()
 
   return (
-    <section ref={sectionRef} id="productos" className="bg-parchment">
+    <section id="productos" className="bg-parchment">
       <div className="max-w-[1160px] mx-auto px-6 md:px-12 py-24 md:py-32">
 
         {/* Intro */}
-        <div ref={introRef}
-             className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 mb-20 items-end">
-          <div>
+        <motion.div
+          variants={introContainer}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+          className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 mb-20 items-end"
+        >
+          <motion.div variants={fadeUp}>
             <span className="section-label">{t('Nuestros productos', 'Our products')}</span>
             <h2 className="section-title">
               {t('Cada pieza,', 'Every piece,')} <em>{t('única para ti', 'unique for you')}</em>
@@ -177,24 +154,29 @@ export default function Products() {
               <img src="/assets/isotipo.png" alt="" className="h-7 logo-taupe" />
               <div className="flex-1 h-px bg-cream" />
             </div>
-          </div>
-          <p className="text-[15px] leading-[1.85] text-navy/55 font-light">
+          </motion.div>
+          <motion.p variants={fadeUp} className="text-[15px] leading-[1.85] text-navy/55 font-light">
             {t(
               'Diseñamos y elaboramos papelería personalizada que cuenta tu historia. Cada producto es completamente personalizable — completa el formulario y nos ponemos en contacto contigo para hacerlo realidad.',
-              'We design and craft custom stationery that tells your story. Every product is fully personalizable — fill out the form and we\'ll reach out to bring it to life together.'
+              "We design and craft custom stationery that tells your story. Every product is fully personalizable — fill out the form and we'll reach out to bring it to life together."
             )}
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
         {/* Grid */}
-        <div
-          ref={gridRef}
+        <motion.div
+          variants={gridContainer}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.1 }}
           className="grid grid-cols-1 md:grid-cols-2 gap-0.5"
         >
           {PRODUCTS.map(p => (
-            <ProductCard key={p.number} product={p} />
+            <motion.div key={p.number} variants={fadeUp}>
+              <ProductCard product={p} />
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   )
