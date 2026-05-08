@@ -92,22 +92,34 @@ export default function Nosotras() {
           </motion.ul>
         </motion.div>
 
-        {/* Photo placeholder */}
+        {/* Photo */}
         <motion.div
           variants={slideRight}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.2 }}
-          className="flex justify-center"
+          className="flex flex-col gap-4"
         >
-          <div className="w-full max-w-[360px] aspect-[3/4] border border-taupe/20
-                          bg-taupe/5 flex flex-col items-center justify-center gap-5">
+          <div className="relative w-full overflow-hidden aspect-[4/3]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/assets/isotipo.png" alt="" className="w-14 logo-invert-dim" />
-            <span className="text-[10px] tracking-[0.2em] uppercase text-taupe/40 text-center px-6">
-              {t('Foto de Mariana y Lor', 'Photo of Mariana & Lor')}
-            </span>
+            <img
+              src="/assets/nosotras.jpg"
+              alt="Mariana y Lor"
+              className="w-full h-full object-cover object-top"
+              style={{ filter: 'sepia(18%) contrast(105%) brightness(0.92)' }}
+            />
+            {/* Navy vignette — bottom blends into dark section */}
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background:
+                  'linear-gradient(to bottom, transparent 55%, rgba(20,24,32,0.45) 100%)',
+              }}
+            />
           </div>
+          <p className="text-[9px] tracking-[0.25em] uppercase text-taupe/40 text-center">
+            Mariana &amp; Lor
+          </p>
         </motion.div>
 
       </div>
