@@ -19,7 +19,11 @@ export default function Contacto() {
   const { t } = useLang()
 
   return (
-    <section id="contacto" className="bg-navy">
+    <section
+      id="contacto"
+      className="bg-cream"
+      style={{ backgroundImage: "url('/assets/patron.png')", backgroundSize: '320px' }}
+    >
       <motion.div
         variants={container}
         initial="hidden"
@@ -28,18 +32,18 @@ export default function Contacto() {
         className="max-w-[700px] mx-auto px-6 md:px-12 py-24 md:py-32
                    text-center flex flex-col items-center gap-0"
       >
-        <motion.span variants={fadeUp} className="section-label !text-taupe">
+        <motion.span variants={fadeUp} className="section-label">
           {t('Hablemos', "Let's talk")}
         </motion.span>
 
-        <motion.h2 variants={fadeUp} className="section-title !text-cream">
+        <motion.h2 variants={fadeUp} className="section-title">
           {t('¿Listo para crear', 'Ready to create')}{' '}
           <em>{t('algo especial?', 'something special?')}</em>
         </motion.h2>
 
         <motion.p
           variants={fadeUp}
-          className="text-[15px] leading-[1.85] text-cream/55 font-light mt-2 mb-12"
+          className="text-[15px] leading-[1.85] text-navy/55 font-light mt-2 mb-12"
         >
           {t(
             'Cuéntanos tu idea y la hacemos realidad. Escríbenos directamente por WhatsApp o Instagram — respondemos en menos de 24 horas.',
@@ -69,9 +73,9 @@ export default function Contacto() {
             href={`https://instagram.com/${IG_HANDLE}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 border border-cream/30 text-cream
+            className="inline-flex items-center gap-3 border border-navy/30 text-navy
                        text-[11px] tracking-[0.2em] uppercase px-8 py-4
-                       hover:bg-cream/6 hover:border-cream/60
+                       hover:bg-navy/6 hover:border-navy/55
                        transition-all duration-300 font-sans"
           >
             <svg className="w-5" viewBox="0 0 24 24" fill="currentColor">
@@ -83,7 +87,7 @@ export default function Contacto() {
 
         <motion.p
           variants={fadeUp}
-          className="mt-10 text-[11px] text-taupe/45 tracking-[0.1em]"
+          className="mt-10 text-[11px] text-navy/35 tracking-[0.1em]"
         >
           {t(
             'También puedes escribirnos directamente desde cada producto ↑',
