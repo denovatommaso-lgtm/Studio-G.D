@@ -1,7 +1,16 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
+
+async function getAdminEmail(): Promise<string> {
+  try {
+    const res = await fetch('/api/admin/me')
+    if (!res.ok) return ''
+    const data = await res.json()
+    return data.email ?? ''
+  } catch { return '' }
+}
 
 const NAV = [
   {
@@ -53,9 +62,12 @@ const NAV = [
 ]
 
 export default function AdminShell({ children }: { children: React.ReactNode }) {
-  const [open, setOpen] = useState(false)
+  const [open,  setOpen]  = useState(false)
+  const [email, setEmail] = useState('')
   const pathname = usePathname()
   const router   = useRouter()
+
+  useEffect(() => { getAdminEmail().then(setEmail) }, [])
 
   const logout = async () => {
     await fetch('/api/admin/logout', { method: 'POST' })
@@ -104,6 +116,12 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
 
       {/* Footer */}
       <div className="px-3 py-5 border-t border-[#b5aa96]/10">
+        {email && (
+          <div className="px-3 py-2 mb-2">
+            <p className="text-[8px] tracking-[0.2em] uppercase text-[#b5aa96]/30 mb-0.5">Sesión activa</p>
+            <p className="text-[11px] text-[#b5aa96]/55 truncate">{email}</p>
+          </div>
+        )}
         <Link
           href="/"
           className="flex items-center gap-3 px-3 py-2.5 text-[12px] text-[#b5aa96]/40
