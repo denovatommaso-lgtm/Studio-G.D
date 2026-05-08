@@ -22,21 +22,13 @@ export default function Home() {
       </main>
       <Footer />
 
-      {/* Admin access */}
+      {/* Admin access — invisible hotspot, bottom-left corner */}
       <a
         href="/admin"
-        className="fixed bottom-24 right-7 z-50 w-10 h-10 rounded-full
-                   bg-navy/70 border border-taupe/20 backdrop-blur-sm
-                   flex items-center justify-center
-                   hover:bg-navy hover:border-taupe/45 transition-all duration-200"
-        title="Admin"
-      >
-        <svg className="w-4 h-4 text-taupe/50" fill="none" viewBox="0 0 24 24"
-             stroke="currentColor" strokeWidth={1.5}>
-          <path strokeLinecap="round" strokeLinejoin="round"
-                d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
-        </svg>
-      </a>
+        className="fixed bottom-0 left-0 z-50 w-10 h-10"
+        aria-hidden="true"
+        tabIndex={-1}
+      />
 
       {/* Floating WhatsApp button */}
       <a
