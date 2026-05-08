@@ -42,8 +42,8 @@ export default function AdminLogin() {
         <img
           src="/assets/isotipo.png"
           alt="Studio G.D."
-          className="w-12"
-          style={{ filter: 'brightness(0) invert(1) opacity(0.55)' }}
+          className="w-28"
+          style={{ filter: 'brightness(0) invert(1) opacity(0.80)' }}
         />
         <div className="text-center">
           <p className="text-[9px] tracking-[0.45em] uppercase text-[#b5aa96]/60 mb-1">Studio G.D.</p>
