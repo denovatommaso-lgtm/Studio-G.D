@@ -36,20 +36,21 @@ export default function AdminLogin() {
   return (
     <div className="min-h-screen bg-[#0a0e1a] flex flex-col items-center justify-center px-6">
 
-      {/* Logo */}
-      <div className="mb-10 flex flex-col items-center gap-4">
+      {/* Logo — click to go back to site */}
+      <a href="/" className="mb-10 flex flex-col items-center gap-4 group">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/assets/isotipo.png"
           alt="Studio G.D."
-          className="w-28"
+          className="w-28 transition-opacity duration-200 group-hover:opacity-100"
           style={{ filter: 'brightness(0) invert(1) opacity(0.80)' }}
         />
         <div className="text-center">
-          <p className="text-[9px] tracking-[0.45em] uppercase text-[#b5aa96]/60 mb-1">Studio G.D.</p>
+          <p className="text-[9px] tracking-[0.45em] uppercase text-[#b5aa96]/60 mb-1
+                         group-hover:text-[#b5aa96]/80 transition-colors">Studio G.D.</p>
           <p className="text-[8px] tracking-[0.3em] uppercase text-[#b5aa96]/35">Panel de administración</p>
         </div>
-      </div>
+      </a>
 
       {/* Card */}
       <div className="w-full max-w-sm bg-[#141926] border border-[#b5aa96]/10 p-10">
