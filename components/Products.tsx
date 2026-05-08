@@ -25,7 +25,7 @@ const PRODUCTS: ProductData[] = [
       { name: 'nombre', labelEs: 'Tu nombre', labelEn: 'Your name', type: 'text',
         placeholderEs: 'Mariana', placeholderEn: 'Mariana' },
       { name: 'notas', labelEs: 'Notas adicionales', labelEn: 'Additional notes', type: 'textarea',
-        placeholderEs: 'Cuéntanos más sobre lo que imaginas...', placeholderEn: 'Tell us more about what you have in mind...', fullWidth: true },
+        placeholderEs: 'Cuéntanos más sobre lo que imaginas…', placeholderEn: 'Tell us more about what you have in mind…', fullWidth: true },
     ],
   },
   {
@@ -51,7 +51,7 @@ const PRODUCTS: ProductData[] = [
       { name: 'nombre', labelEs: 'Tu nombre', labelEn: 'Your name', type: 'text',
         placeholderEs: 'Lorena', placeholderEn: 'Lorena' },
       { name: 'notas', labelEs: 'Notas adicionales', labelEn: 'Additional notes', type: 'textarea',
-        placeholderEs: 'Cuéntanos más...', placeholderEn: 'Tell us more...', fullWidth: true },
+        placeholderEs: 'Cuéntanos más…', placeholderEn: 'Tell us more…', fullWidth: true },
     ],
   },
   {
@@ -107,25 +107,20 @@ const PRODUCTS: ProductData[] = [
       { name: 'telefono', labelEs: 'Tu WhatsApp', labelEn: 'Your WhatsApp', type: 'tel',
         placeholderEs: '+52 55 0000 0000', placeholderEn: '+52 55 0000 0000' },
       { name: 'vision', labelEs: 'Cuéntanos tu visión', labelEn: 'Tell us your vision', type: 'textarea',
-        placeholderEs: 'Describe el estilo, colores, referencias o detalles especiales de tu boda...',
-        placeholderEn: 'Describe the style, colors, references, or special details of your wedding...', fullWidth: true },
+        placeholderEs: 'Describe el estilo, colores, referencias o detalles especiales de tu boda…',
+        placeholderEn: 'Describe the style, colors, references, or special details of your wedding…', fullWidth: true },
     ],
   },
 ]
 
+const headerVariants = {
+  hidden: {},
+  show:   { transition: { staggerChildren: 0.12 } },
+}
+
 const fadeUp = {
-  hidden: { opacity: 0, y: 28 },
+  hidden: { opacity: 0, y: 22 },
   show:   { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.25, 0.1, 0.25, 1] as const } },
-}
-
-const introContainer = {
-  hidden: {},
-  show:   { transition: { staggerChildren: 0.13 } },
-}
-
-const gridContainer = {
-  hidden: {},
-  show:   { transition: { staggerChildren: 0.1 } },
 }
 
 export default function Products() {
@@ -133,51 +128,63 @@ export default function Products() {
 
   return (
     <section id="productos" className="bg-parchment">
-      <div className="max-w-[1160px] mx-auto px-6 md:px-12 py-24 md:py-32">
 
-        {/* Intro */}
+      {/* ── Header ──────────────────────────────────────────────────────────── */}
+      <motion.div
+        variants={headerVariants}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.25 }}
+        className="max-w-[1160px] mx-auto px-6 md:px-12
+                   pt-24 md:pt-32 pb-16 md:pb-20 text-center"
+      >
+        <motion.span variants={fadeUp} className="section-label">
+          {t('Nuestros productos', 'Our products')}
+        </motion.span>
+
+        <motion.h2 variants={fadeUp} className="section-title">
+          {t('Cada pieza,', 'Every piece,')} <em>{t('única para ti', 'unique for you')}</em>
+        </motion.h2>
+
         <motion.div
-          variants={introContainer}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 mb-20 items-end"
+          variants={fadeUp}
+          className="flex items-center gap-4 mt-6 max-w-[240px] mx-auto"
         >
-          <motion.div variants={fadeUp}>
-            <span className="section-label">{t('Nuestros productos', 'Our products')}</span>
-            <h2 className="section-title">
-              {t('Cada pieza,', 'Every piece,')} <em>{t('única para ti', 'unique for you')}</em>
-            </h2>
-            <div className="flex items-center gap-4 mt-6 mb-0">
-              <div className="flex-1 h-px bg-cream" />
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/assets/isotipo.png" alt="" className="h-7 logo-taupe" />
-              <div className="flex-1 h-px bg-cream" />
-            </div>
-          </motion.div>
-          <motion.p variants={fadeUp} className="text-[15px] leading-[1.85] text-navy/55 font-light">
-            {t(
-              'Diseñamos y elaboramos papelería personalizada que cuenta tu historia. Cada producto es completamente personalizable — completa el formulario y nos ponemos en contacto contigo para hacerlo realidad.',
-              "We design and craft custom stationery that tells your story. Every product is fully personalizable — fill out the form and we'll reach out to bring it to life together."
-            )}
-          </motion.p>
+          <div className="flex-1 h-px bg-navy/20" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/assets/isotipo.png" alt="" className="h-5 logo-taupe" />
+          <div className="flex-1 h-px bg-navy/20" />
         </motion.div>
 
-        {/* Grid */}
-        <motion.div
-          variants={gridContainer}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.1 }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-0.5"
+        <motion.p
+          variants={fadeUp}
+          className="mt-6 text-[14px] md:text-[15px] leading-[1.85]
+                     text-navy/50 font-light max-w-[480px] mx-auto"
         >
-          {PRODUCTS.map(p => (
-            <motion.div key={p.number} variants={fadeUp}>
-              <ProductCard product={p} />
-            </motion.div>
-          ))}
+          {t(
+            'Completamente personalizables — cuéntanos tu idea y la hacemos realidad.',
+            'Fully personalizable — tell us your vision and we\'ll bring it to life.'
+          )}
+        </motion.p>
+      </motion.div>
+
+      {/* ── Product rows ────────────────────────────────────────────────────── */}
+      <div className="h-px bg-navy/10" />
+
+      {PRODUCTS.map((p, i) => (
+        <motion.div
+          key={p.number}
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1], delay: i * 0.06 }}
+        >
+          <ProductCard product={p} />
+          <div className="h-px bg-navy/10" />
         </motion.div>
-      </div>
+      ))}
+
+      <div className="pb-16 md:pb-24" />
     </section>
   )
 }
