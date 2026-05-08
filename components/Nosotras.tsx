@@ -113,24 +113,38 @@ export default function Nosotras() {
             transition={{ duration: 1.6, delay: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
           />
 
-          <div className="relative w-full overflow-hidden aspect-[4/3]">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/assets/9799b8cc-5832-4c4d-bea0-814debca2250.jpg"
-              alt="Mariana y Lor"
-              className="w-full h-full object-cover object-top"
-              style={{ filter: 'sepia(18%) contrast(105%) brightness(0.92)' }}
-            />
-            {/* Navy vignette — bottom blends into dark section */}
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                background:
-                  'linear-gradient(to bottom, transparent 55%, rgba(20,24,32,0.45) 100%)',
-              }}
-            />
+          {/* Outer decorative frame */}
+          <div className="relative p-[10px]"
+            style={{
+              background: 'linear-gradient(135deg, rgba(181,170,150,0.18) 0%, rgba(181,170,150,0.06) 100%)',
+              boxShadow: 'inset 0 0 0 1px rgba(181,170,150,0.28), 0 0 0 5px rgba(30,37,53,1), 0 0 0 6px rgba(181,170,150,0.20)',
+            }}
+          >
+            {/* Corner ornaments */}
+            <span className="absolute top-[3px] left-[3px]  w-4 h-4 border-t border-l border-taupe/50 pointer-events-none" />
+            <span className="absolute top-[3px] right-[3px] w-4 h-4 border-t border-r border-taupe/50 pointer-events-none" />
+            <span className="absolute bottom-[3px] left-[3px]  w-4 h-4 border-b border-l border-taupe/50 pointer-events-none" />
+            <span className="absolute bottom-[3px] right-[3px] w-4 h-4 border-b border-r border-taupe/50 pointer-events-none" />
+
+            <div className="relative w-full overflow-hidden aspect-[4/3]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/assets/9799b8cc-5832-4c4d-bea0-814debca2250.jpg"
+                alt="Mariana y Lor"
+                className="w-full h-full object-cover object-top"
+                style={{ filter: 'sepia(18%) contrast(105%) brightness(0.92)' }}
+              />
+              {/* Navy vignette — bottom blends into dark section */}
+              <div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background:
+                    'linear-gradient(to bottom, transparent 55%, rgba(20,24,32,0.45) 100%)',
+                }}
+              />
+            </div>
           </div>
-          <p className="text-[9px] tracking-[0.25em] uppercase text-taupe/40 text-center">
+          <p className="text-[9px] tracking-[0.25em] uppercase text-taupe/40 text-center mt-3">
             Mariana &amp; Lor
           </p>
         </motion.div>

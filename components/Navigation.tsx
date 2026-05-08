@@ -40,8 +40,8 @@ export default function Navigation() {
           <img
             src="/assets/logo-main.png"
             alt="Studio G.D."
-            className="h-16 w-auto logo-invert transition-opacity hover:opacity-100"
-            style={{ opacity: 0.92 }}
+            className="h-24 w-auto logo-invert transition-opacity hover:opacity-100"
+            style={{ opacity: 0.95 }}
           />
         </a>
 
@@ -64,11 +64,24 @@ export default function Navigation() {
         <div className="flex items-center gap-4">
           <button
             onClick={toggle}
-            className="border border-cream/25 text-cream/70 hover:text-cream hover:border-cream/50
-                       text-[10px] tracking-[0.18em] uppercase px-3 py-1.5
-                       transition-all duration-200 font-sans"
+            className="flex items-center gap-0 border border-cream/25 hover:border-cream/50
+                       text-[10px] tracking-[0.18em] uppercase font-sans
+                       transition-all duration-200 overflow-hidden"
+            aria-label="Cambiar idioma / Switch language"
           >
-            {lang === 'es' ? 'EN' : 'ES'}
+            <span className={`px-3 py-1.5 transition-all duration-200
+              ${lang === 'es'
+                ? 'bg-cream/20 text-cream'
+                : 'text-cream/40 hover:text-cream/70'}`}>
+              ES
+            </span>
+            <span className="text-cream/25 select-none">|</span>
+            <span className={`px-3 py-1.5 transition-all duration-200
+              ${lang === 'en'
+                ? 'bg-cream/20 text-cream'
+                : 'text-cream/40 hover:text-cream/70'}`}>
+              EN
+            </span>
           </button>
 
           {/* Hamburger — mobile only */}

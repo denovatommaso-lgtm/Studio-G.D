@@ -88,24 +88,26 @@ export default function SettingsPage() {
       {/* Password note */}
       <div className="bg-[#1c2538] border border-white/10 rounded-lg">
         <div className="px-6 py-4 border-b border-white/10">
-          <h2 className="text-sm font-semibold text-white">Contraseña</h2>
+          <h2 className="text-sm font-semibold text-white">Cambiar contraseña</h2>
         </div>
-        <div className="px-6 py-5">
-          <p className="text-sm text-gray-400 mb-3">
-            Las contraseñas se gestionan desde el panel de Supabase.
-          </p>
-          <a
-            href="https://supabase.com/dashboard"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm text-blue-400
-                       hover:text-blue-300 transition-colors font-medium"
-          >
-            Ir a Supabase Dashboard
-            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+        <div className="px-6 py-5 flex items-start gap-3">
+          <div className="mt-0.5 flex-shrink-0">
+            <svg className="w-4 h-4 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
             </svg>
-          </a>
+          </div>
+          <p className="text-sm text-gray-300 leading-relaxed">
+            Para cambiar la contraseña de admin, contacta al administrador al{' '}
+            <a
+              href="https://wa.me/529997003170"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-emerald-400 hover:text-emerald-300 font-medium transition-colors"
+            >
+              +52 999 700 3170
+            </a>
+            .
+          </p>
         </div>
       </div>
     </div>
