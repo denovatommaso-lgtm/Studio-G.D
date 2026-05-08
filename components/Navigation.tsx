@@ -54,8 +54,8 @@ export default function Navigation ({ introReady }: Props) {
           <img
             src="/assets/isotipo.png"
             alt="Studio G.D."
-            className="h-10 w-auto logo-invert transition-opacity hover:opacity-100"
-            style={{ opacity: 0.85 }}
+            className="h-16 w-auto logo-invert transition-opacity hover:opacity-100"
+            style={{ opacity: 0.92 }}
           />
         </a>
 
