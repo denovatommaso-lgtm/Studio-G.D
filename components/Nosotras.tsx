@@ -65,13 +65,13 @@ export default function Nosotras() {
 
           <p className="text-[15px] leading-[1.85] text-cream/60 font-light mb-8">
             {t(
-              'Somos Mariana y Lor, dos hermanas unidas por la pasión por el diseño, el papel y los detalles que hacen la diferencia. Studio G.D. nació de nuestra convicción de que cada celebración merece papelería que cuente su propia historia.',
-              'We are Mariana and Lor, two sisters united by a passion for design, paper, and the details that make all the difference. Studio G.D. was born from our belief that every celebration deserves stationery that tells its own story.'
+              'Somos Mariana y Lorenza, dos hermanas unidas por la pasión por el diseño, el papel y los detalles que hacen la diferencia. Studio G.D. nació de nuestra convicción de que cada celebración merece papelería que cuente su propia historia.',
+              'We are Mariana and Lorenza, two sisters united by a passion for design, paper, and the details that make all the difference. Studio G.D. was born from our belief that every celebration deserves stationery that tells its own story.'
             )}
           </p>
 
           <span className="font-script text-4xl text-taupe block mb-8">
-            Mariana &amp; Lor
+            Mariana &amp; Lorenza
           </span>
 
           <motion.ul
@@ -92,13 +92,13 @@ export default function Nosotras() {
           </motion.ul>
         </motion.div>
 
-        {/* Photo */}
+        {/* Photo — Polaroid */}
         <motion.div
           variants={slideRight}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.2 }}
-          className="flex flex-col gap-4 relative"
+          className="flex justify-center items-center relative"
         >
           {/* Decorative estampa — top right corner */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -106,47 +106,61 @@ export default function Nosotras() {
             src="/assets/estampa2.png"
             alt=""
             className="absolute pointer-events-none select-none z-10"
-            style={{ width: 140, top: -28, right: -24, opacity: 0.18 }}
+            style={{ width: 130, top: -32, right: -16, opacity: 0.15 }}
             initial={{ opacity: 0, rotate: 14, scale: 0.88 }}
-            whileInView={{ opacity: 0.18, rotate: 14, scale: 1 }}
+            whileInView={{ opacity: 0.15, rotate: 14, scale: 1 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 1.6, delay: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
           />
 
-          {/* Outer decorative frame */}
-          <div className="relative p-[10px]"
+          {/* Polaroid */}
+          <div
             style={{
-              background: 'linear-gradient(135deg, rgba(181,170,150,0.18) 0%, rgba(181,170,150,0.06) 100%)',
-              boxShadow: 'inset 0 0 0 1px rgba(181,170,150,0.28), 0 0 0 5px rgba(30,37,53,1), 0 0 0 6px rgba(181,170,150,0.20)',
+              background: 'linear-gradient(160deg, #f7f2ea 0%, #ede8df 100%)',
+              padding: '14px 14px 64px 14px',
+              transform: 'rotate(-2deg)',
+              maxWidth: 360,
+              width: '100%',
+              boxShadow: `
+                0 1px 1px rgba(0,0,0,0.22),
+                0 3px 5px rgba(0,0,0,0.18),
+                0 8px 16px rgba(0,0,0,0.14),
+                0 24px 48px rgba(0,0,0,0.10),
+                inset 0 1px 0 rgba(255,255,255,0.6)
+              `,
             }}
           >
-            {/* Corner ornaments */}
-            <span className="absolute top-[3px] left-[3px]  w-4 h-4 border-t border-l border-taupe/50 pointer-events-none" />
-            <span className="absolute top-[3px] right-[3px] w-4 h-4 border-t border-r border-taupe/50 pointer-events-none" />
-            <span className="absolute bottom-[3px] left-[3px]  w-4 h-4 border-b border-l border-taupe/50 pointer-events-none" />
-            <span className="absolute bottom-[3px] right-[3px] w-4 h-4 border-b border-r border-taupe/50 pointer-events-none" />
-
-            <div className="relative w-full overflow-hidden aspect-[4/3]">
+            {/* Photo area */}
+            <div className="relative w-full overflow-hidden aspect-[3/4]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/assets/nosotras.jpg"
-                alt="Mariana y Lor"
+                alt="Mariana y Lorenza"
                 className="w-full h-full object-cover object-top"
-                style={{ filter: 'sepia(18%) contrast(105%) brightness(0.92)' }}
+                style={{ filter: 'sepia(10%) contrast(104%) brightness(0.97) saturate(0.88)' }}
               />
-              {/* Navy vignette — bottom blends into dark section */}
+              {/* Subtle inner shadow to make photo feel inset */}
               <div
                 className="absolute inset-0 pointer-events-none"
                 style={{
-                  background:
-                    'linear-gradient(to bottom, transparent 55%, rgba(20,24,32,0.45) 100%)',
+                  boxShadow: 'inset 0 0 12px rgba(0,0,0,0.18)',
                 }}
               />
             </div>
+
+            {/* Polaroid caption tab */}
+            <p
+              className="font-script text-center"
+              style={{
+                fontSize: '22px',
+                color: '#7a6a58',
+                marginTop: '14px',
+                letterSpacing: '0.01em',
+              }}
+            >
+              Mariana &amp; Lorenza
+            </p>
           </div>
-          <p className="text-[9px] tracking-[0.25em] uppercase text-taupe/40 text-center mt-3">
-            Mariana &amp; Lor
-          </p>
         </motion.div>
 
       </div>
