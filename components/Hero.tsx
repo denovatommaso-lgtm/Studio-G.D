@@ -3,12 +3,7 @@ import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { useLang } from '@/context/LangContext'
 
-interface Props {
-  /** True once the BikeIntro cross-fade begins — triggers all GSAP reveals */
-  introReady?: boolean
-}
-
-export default function Hero ({ introReady }: Props) {
+export default function Hero () {
   const logoRef    = useRef<HTMLDivElement>(null)
   const ruleRef    = useRef<HTMLDivElement>(null)
   const taglineRef = useRef<HTMLParagraphElement>(null)
@@ -19,8 +14,6 @@ export default function Hero ({ introReady }: Props) {
   const { t }      = useLang()
 
   useEffect(() => {
-    if (!introReady) return
-
     const ctx = gsap.context(() => {
 
       // ── Stamps drift in behind content (slow, decorative) ─────────────────
@@ -104,7 +97,7 @@ export default function Hero ({ introReady }: Props) {
     })
 
     return () => ctx.revert()
-  }, [introReady])
+  }, [])
 
   return (
     <section
@@ -161,7 +154,7 @@ export default function Hero ({ introReady }: Props) {
         {/* Logo — same crop as BikeIntro so the cross-fade is a seamless position swap */}
         <div
           ref={logoRef}
-          className="overflow-hidden opacity-0"
+          className="overflow-hidden"
           style={{
             width  : 'min(620px, 90vw)',
             height : 'calc(min(620px, 90vw) * 0.24)',
@@ -179,7 +172,7 @@ export default function Hero ({ introReady }: Props) {
         {/* Ornamental rule */}
         <div
           ref={ruleRef}
-          className="flex items-center gap-4 mt-5 mb-6 w-full max-w-[340px] opacity-0"
+          className="flex items-center gap-4 mt-5 mb-6 w-full max-w-[340px]"
         >
           <div className="flex-1 h-px bg-taupe/45" />
           <span className="text-[8px] tracking-[0.48em] uppercase text-taupe/75 font-sans whitespace-nowrap">
@@ -190,7 +183,7 @@ export default function Hero ({ introReady }: Props) {
 
         <p
           ref={taglineRef}
-          className="text-cream/75 text-[10px] tracking-[0.42em] uppercase opacity-0 mb-9"
+          className="text-cream/75 text-[10px] tracking-[0.42em] uppercase mb-9"
         >
           {t(
             'Papelería personalizada · Hecha con intención',
@@ -203,7 +196,7 @@ export default function Hero ({ introReady }: Props) {
           href="#productos"
           className="border border-taupe/55 text-cream text-[10px] tracking-[0.3em]
                      uppercase px-12 py-[15px] hover:bg-taupe/15 hover:border-taupe/80
-                     transition-all duration-300 opacity-0"
+                     transition-all duration-300"
         >
           {t('Ver productos', 'View products')}
         </a>
@@ -213,7 +206,7 @@ export default function Hero ({ introReady }: Props) {
       <div
         ref={scrollRef}
         className="absolute bottom-9 left-1/2 -translate-x-1/2 flex flex-col
-                   items-center gap-2 text-taupe/70 opacity-0 pointer-events-none"
+                   items-center gap-2 text-taupe/70 pointer-events-none"
       >
         <span className="text-[9px] tracking-[0.28em] uppercase">Scroll</span>
         <svg className="w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">

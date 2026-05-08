@@ -10,31 +10,24 @@ const links = [
   { href: '#contacto',  es: 'Contacto',  en: 'Contact'  },
 ]
 
-interface Props {
-  introReady?: boolean
-}
-
-export default function Navigation ({ introReady }: Props) {
+export default function Navigation () {
   const { lang, toggle, t } = useLang()
   const navRef              = useRef<HTMLElement>(null)
   const [scrolled, setScrolled]   = useState(false)
   const [menuOpen, setMenuOpen]   = useState(false)
 
-  // Scroll-based nav style
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60)
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // GSAP entrance — waits for intro to complete
   useEffect(() => {
-    if (!introReady) return
     gsap.fromTo(navRef.current,
       { y: -20, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out', delay: 0.45 }
+      { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out', delay: 0.2 }
     )
-  }, [introReady])
+  }, [])
 
   const closeMenu = () => setMenuOpen(false)
 
