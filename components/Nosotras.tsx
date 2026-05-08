@@ -117,7 +117,7 @@ export default function Nosotras() {
           <div
             style={{
               background: 'linear-gradient(160deg, #f0e9dc 0%, #e4ddd0 100%)',
-              padding: '13px 13px 152px 13px',
+              padding: '13px 13px 60px 13px',
               transform: 'rotate(-2deg)',
               maxWidth: 360,
               width: '100%',
@@ -159,12 +159,12 @@ export default function Nosotras() {
             </div>
 
             {/* Studio G.D logo in polaroid tab */}
-            <div className="flex justify-center items-center" style={{ marginTop: '16px', height: '128px' }}>
+            <div className="flex justify-center items-center" style={{ marginTop: '6px', height: '50px' }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/assets/logo-main.png"
                 alt="Studio G.D."
-                style={{ height: '120px', width: 'auto', filter: 'brightness(0) sepia(1) saturate(3) hue-rotate(340deg) brightness(0.55)', opacity: 0.70 }}
+                style={{ height: '46px', width: 'auto', filter: 'brightness(0) sepia(1) saturate(3) hue-rotate(340deg) brightness(0.55)', opacity: 0.70 }}
               />
             </div>
           </div>
