@@ -10,6 +10,16 @@
   ::-webkit-scrollbar-thumb { background: #b5aa96; border-radius: 2px; }
 }
 
+/* ── Bike intro: wheel spin ── */
+.bike-wheel-spin {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: bikeWheelSpin 0.72s linear infinite;
+}
+@keyframes bikeWheelSpin {
+  to { transform: rotate(360deg); }
+}
+
 @layer utilities {
   .logo-invert     { filter: brightness(0) invert(1) opacity(0.88); }
   .logo-invert-dim { filter: brightness(0) invert(1) opacity(0.45); }

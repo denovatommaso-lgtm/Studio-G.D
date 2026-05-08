@@ -3,8 +3,13 @@ import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { useLang } from '@/context/LangContext'
 
-export default function Hero() {
-  const logoRef    = useRef<HTMLImageElement>(null)
+interface Props {
+  /** True once the BikeIntro cross-fade begins — triggers all GSAP reveals */
+  introReady?: boolean
+}
+
+export default function Hero ({ introReady }: Props) {
+  const logoRef    = useRef<HTMLDivElement>(null)
   const ruleRef    = useRef<HTMLDivElement>(null)
   const taglineRef = useRef<HTMLParagraphElement>(null)
   const ctaRef     = useRef<HTMLAnchorElement>(null)
@@ -14,91 +19,92 @@ export default function Hero() {
   const { t }      = useLang()
 
   useEffect(() => {
+    if (!introReady) return
+
     const ctx = gsap.context(() => {
-      // Ghost stamps drift in slowly
+
+      // ── Stamps drift in behind content (slow, decorative) ─────────────────
       gsap.fromTo(
         [stamp1Ref.current, stamp2Ref.current],
-        { opacity: 0, scale: 0.88 },
-        { opacity: 1, scale: 1, duration: 3, stagger: 0.7, ease: 'power2.out', delay: 0.1 }
+        { opacity: 0, scale: 0.9 },
+        { opacity: 1, scale: 1, duration: 2.8, stagger: 0.6, ease: 'power2.out', delay: 0.2 }
       )
 
-      const tl = gsap.timeline({ delay: 0.2 })
+      // ── Main content cascade ───────────────────────────────────────────────
+      // Logo appears instantly as the cross-fade begins (BikeIntro logo is
+      // fading out at the same position, so this is a seamless swap).
+      const tl = gsap.timeline()
 
-      // Logo lifts in — transparent padding above acts as natural breathing room
       tl.fromTo(logoRef.current,
-        { opacity: 0, y: 24, scale: 0.97 },
-        { opacity: 1, y: 0, scale: 1, duration: 1.5, ease: 'power3.out' }
+        { opacity: 0, y: 8, scale: 0.98 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.55, ease: 'power3.out' }
       )
 
-      // Ornamental rule + label
       tl.fromTo(ruleRef.current,
-        { opacity: 0, y: 8 },
-        { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' },
-        '-=0.8'
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.55, ease: 'power2.out' },
+        '-=0.25'
       )
 
-      // Tagline
       tl.fromTo(taglineRef.current,
         { opacity: 0, y: 10 },
-        { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' },
-        '-=0.35'
+        { opacity: 1, y: 0, duration: 0.55, ease: 'power2.out' },
+        '-=0.3'
       )
 
-      // CTA
       tl.fromTo(ctaRef.current,
         { opacity: 0, y: 8 },
-        { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
-        '-=0.35'
+        { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' },
+        '-=0.3'
       )
 
-      // Scroll indicator
       tl.fromTo(scrollRef.current,
         { opacity: 0 },
         { opacity: 1, duration: 0.5 },
         '-=0.2'
       )
 
-      // Perpetual: logo gentle float
+      // ── Perpetual: logo gentle float ───────────────────────────────────────
       gsap.to(logoRef.current, {
-        y: -14,
-        duration: 4.2,
-        ease: 'sine.inOut',
-        yoyo: true,
-        repeat: -1,
-        delay: 1.8,
+        y        : -14,
+        duration : 4.2,
+        ease     : 'sine.inOut',
+        yoyo     : true,
+        repeat   : -1,
+        delay    : 1.2,
       })
 
-      // Perpetual: scroll bounce
+      // ── Perpetual: scroll indicator bounce ────────────────────────────────
       gsap.to(scrollRef.current, {
-        y: 7,
-        duration: 1.5,
-        ease: 'sine.inOut',
-        yoyo: true,
-        repeat: -1,
+        y        : 7,
+        duration : 1.5,
+        ease     : 'sine.inOut',
+        yoyo     : true,
+        repeat   : -1,
       })
 
-      // Perpetual: stamp slow drift
+      // ── Perpetual: stamp slow drift ────────────────────────────────────────
       gsap.to(stamp1Ref.current, {
-        y: '-=20',
-        rotation: '+=5',
-        duration: 16,
-        ease: 'sine.inOut',
-        yoyo: true,
-        repeat: -1,
+        y        : '-=20',
+        rotation : '+=5',
+        duration : 16,
+        ease     : 'sine.inOut',
+        yoyo     : true,
+        repeat   : -1,
       })
       gsap.to(stamp2Ref.current, {
-        y: '+=14',
-        rotation: '-=4',
-        duration: 12,
-        ease: 'sine.inOut',
-        yoyo: true,
-        repeat: -1,
-        delay: 2.5,
+        y        : '+=14',
+        rotation : '-=4',
+        duration : 12,
+        ease     : 'sine.inOut',
+        yoyo     : true,
+        repeat   : -1,
+        delay    : 2.5,
       })
     })
 
     return () => ctx.revert()
-  }, [])
+  }, [introReady])
 
   return (
     <section
@@ -127,11 +133,9 @@ export default function Hero() {
         ref={stamp1Ref}
         src="/assets/stamp-cream.png"
         alt=""
-        className="absolute pointer-events-none select-none"
+        className="absolute pointer-events-none select-none opacity-0"
         style={{
-          width: 440,
-          top: -70,
-          left: -90,
+          width: 440, top: -70, left: -90,
           transform: 'rotate(-20deg)',
           filter: 'brightness(0) invert(1) opacity(0.07)',
         }}
@@ -143,28 +147,24 @@ export default function Hero() {
         ref={stamp2Ref}
         src="/assets/stamp-sage.png"
         alt=""
-        className="absolute pointer-events-none select-none"
+        className="absolute pointer-events-none select-none opacity-0"
         style={{
-          width: 400,
-          bottom: -50,
-          right: -70,
+          width: 400, bottom: -50, right: -70,
           transform: 'rotate(15deg)',
           filter: 'brightness(0) invert(1) opacity(0.08)',
         }}
       />
 
-      {/* Content */}
+      {/* ── Content ──────────────────────────────────────────────────────────── */}
       <div className="relative z-10 flex flex-col items-center text-center px-6">
 
-        {/* Logo — crops the equal transparent padding on top & bottom of the PNG.
-             Artwork occupies 43%–57% of the 1201×1201 PNG, so we shift the img
-             up by 38% of its display width and show a 24% tall window. */}
+        {/* Logo — same crop as BikeIntro so the cross-fade is a seamless position swap */}
         <div
           ref={logoRef}
-          className="opacity-0 overflow-hidden"
+          className="overflow-hidden opacity-0"
           style={{
-            width:  'min(620px, 90vw)',
-            height: 'calc(min(620px, 90vw) * 0.24)',
+            width  : 'min(620px, 90vw)',
+            height : 'calc(min(620px, 90vw) * 0.24)',
           }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -176,7 +176,7 @@ export default function Hero() {
           />
         </div>
 
-        {/* Ornamental rule with brand label */}
+        {/* Ornamental rule */}
         <div
           ref={ruleRef}
           className="flex items-center gap-4 mt-5 mb-6 w-full max-w-[340px] opacity-0"
