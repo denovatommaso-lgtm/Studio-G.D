@@ -12,25 +12,22 @@ const STATUS_LABEL: Record<string, string> = {
 }
 
 const STATUS_COLOR: Record<string, string> = {
-  pending:     'bg-amber-400/15 text-amber-300 border-amber-400/20',
-  in_progress: 'bg-blue-400/15 text-blue-300 border-blue-400/20',
-  completed:   'bg-emerald-400/15 text-emerald-300 border-emerald-400/20',
-  cancelled:   'bg-red-400/15 text-red-300 border-red-400/20',
+  pending:     'bg-amber-400/20 text-amber-300 border border-amber-400/30',
+  in_progress: 'bg-blue-400/20 text-blue-300 border border-blue-400/30',
+  completed:   'bg-emerald-400/20 text-emerald-300 border border-emerald-400/30',
+  cancelled:   'bg-red-400/20 text-red-300 border border-red-400/30',
 }
 
 export default function OrdersPage() {
-  const [orders,    setOrders]    = useState<Order[]>([])
-  const [loading,   setLoading]   = useState(true)
-  const [filter,    setFilter]    = useState<string>('all')
-  const [expanded,  setExpanded]  = useState<string | null>(null)
-  const [saving,    setSaving]    = useState<string | null>(null)
+  const [orders,   setOrders]   = useState<Order[]>([])
+  const [loading,  setLoading]  = useState(true)
+  const [filter,   setFilter]   = useState<string>('all')
+  const [expanded, setExpanded] = useState<string | null>(null)
+  const [saving,   setSaving]   = useState<string | null>(null)
 
   const load = () => {
     setLoading(true)
-    getOrders()
-      .then(setOrders)
-      .catch(console.error)
-      .finally(() => setLoading(false))
+    getOrders().then(setOrders).catch(console.error).finally(() => setLoading(false))
   }
 
   useEffect(load, [])
@@ -42,14 +39,14 @@ export default function OrdersPage() {
   const handleStatus = async (id: string, status: Order['status']) => {
     setSaving(id)
     try {
-      await updateOrderStatus(id!, status!)
+      await updateOrderStatus(id, status!)
       setOrders(prev => prev.map(o => o.id === id ? { ...o, status } : o))
     } catch (e) { console.error(e) }
     finally { setSaving(null) }
   }
 
   const handleDelete = async (id: string) => {
-    if (!confirm('¿Eliminar este pedido?')) return
+    if (!confirm('¿Eliminar este pedido? Esta acción no se puede deshacer.')) return
     try {
       await deleteOrder(id)
       setOrders(prev => prev.filter(o => o.id !== id))
@@ -57,47 +54,46 @@ export default function OrdersPage() {
   }
 
   return (
-    <div>
-      <div className="mb-8">
-        <h1 className="font-serif font-light text-3xl text-[#e8e4d8] mb-1">Pedidos</h1>
-        <p className="text-[11px] text-[#b5aa96]/50 tracking-wide">{orders.length} pedidos en total</p>
+    <div className="max-w-6xl">
+      <div className="mb-6">
+        <h1 className="text-2xl font-semibold text-white mb-1">Pedidos</h1>
+        <p className="text-sm text-gray-400">{orders.length} pedidos en total</p>
       </div>
 
-      {/* Filters */}
-      <div className="flex flex-wrap gap-2 mb-6">
-        {['all', ...ALL_STATUSES].map(s => (
-          <button
-            key={s}
-            onClick={() => setFilter(s)}
-            className={`text-[10px] tracking-[0.2em] uppercase px-4 py-2 rounded border transition-all duration-150
-                        ${filter === s
-                          ? 'bg-[#b5aa96]/15 border-[#b5aa96]/40 text-[#e8e4d8]'
-                          : 'border-[#b5aa96]/10 text-[#b5aa96]/40 hover:border-[#b5aa96]/25 hover:text-[#b5aa96]/70'
-                        }`}
-          >
-            {s === 'all' ? 'Todos' : STATUS_LABEL[s]}
-            {' '}
-            <span className="opacity-60">
-              ({s === 'all' ? orders.length : orders.filter(o => (o.status ?? 'pending') === s).length})
-            </span>
-          </button>
-        ))}
+      {/* Filter tabs */}
+      <div className="flex flex-wrap gap-2 mb-5">
+        {['all', ...ALL_STATUSES].map(s => {
+          const count = s === 'all' ? orders.length : orders.filter(o => (o.status ?? 'pending') === s).length
+          return (
+            <button
+              key={s}
+              onClick={() => setFilter(s)}
+              className={`text-xs font-medium px-4 py-2 rounded-md border transition-all
+                          ${filter === s
+                            ? 'bg-white text-[#111624] border-white'
+                            : 'border-white/15 text-gray-400 hover:text-white hover:border-white/30'
+                          }`}
+            >
+              {s === 'all' ? 'Todos' : STATUS_LABEL[s]} ({count})
+            </button>
+          )
+        })}
       </div>
 
       {/* Table */}
-      <div className="bg-[#1a2236] border border-[#b5aa96]/10 rounded overflow-hidden">
+      <div className="bg-[#1c2538] border border-white/10 rounded-lg overflow-hidden">
         {loading ? (
-          <div className="py-16 text-center text-[#b5aa96]/30 text-sm">Cargando…</div>
+          <div className="py-16 text-center text-gray-500 text-sm">Cargando…</div>
         ) : filtered.length === 0 ? (
-          <div className="py-16 text-center text-[#b5aa96]/30 text-sm">
-            No hay pedidos{filter !== 'all' ? ` con estado "${STATUS_LABEL[filter]}"` : ''}.
+          <div className="py-16 text-center text-gray-500 text-sm">
+            {filter === 'all' ? 'No hay pedidos aún.' : `Sin pedidos con estado "${STATUS_LABEL[filter]}".`}
           </div>
         ) : (
-          <div>
+          <>
             {/* Header */}
-            <div className="hidden md:grid grid-cols-[1fr_1fr_140px_140px_80px] gap-4
-                            px-6 py-3 border-b border-[#b5aa96]/10
-                            text-[9px] tracking-[0.3em] uppercase text-[#b5aa96]/35">
+            <div className="hidden md:grid grid-cols-[1fr_1fr_140px_160px_80px] gap-4
+                            px-5 py-3 border-b border-white/10
+                            text-xs font-semibold text-gray-400 uppercase tracking-wide bg-white/3">
               <span>Producto</span>
               <span>Cliente</span>
               <span>Fecha</span>
@@ -107,19 +103,18 @@ export default function OrdersPage() {
 
             {filtered.map(order => (
               <div key={order.id}>
-                {/* Row */}
                 <div
-                  className={`grid grid-cols-1 md:grid-cols-[1fr_1fr_140px_140px_80px] gap-3 md:gap-4
-                               px-6 py-4 border-b border-[#b5aa96]/6 cursor-pointer
-                               hover:bg-[#b5aa96]/3 transition-colors
-                               ${expanded === order.id ? 'bg-[#b5aa96]/4' : ''}`}
+                  className={`grid grid-cols-1 md:grid-cols-[1fr_1fr_140px_160px_80px] gap-3 md:gap-4
+                               px-5 py-4 border-b border-white/5 cursor-pointer
+                               hover:bg-white/3 transition-colors
+                               ${expanded === order.id ? 'bg-white/4' : ''}`}
                   onClick={() => setExpanded(expanded === order.id ? null : order.id!)}
                 >
-                  <p className="text-[13px] text-[#e8e4d8]/85 truncate">{order.product_name}</p>
-                  <p className="text-[13px] text-[#b5aa96]/60 truncate">
+                  <p className="text-sm text-white font-medium truncate">{order.product_name}</p>
+                  <p className="text-sm text-gray-300 truncate">
                     {order.form_data?.nombre ?? order.form_data?.novios ?? '—'}
                   </p>
-                  <p className="text-[11px] text-[#b5aa96]/40">
+                  <p className="text-sm text-gray-400">
                     {order.created_at
                       ? new Date(order.created_at).toLocaleDateString('es-MX', { day: 'numeric', month: 'short', year: '2-digit' })
                       : '—'}
@@ -129,24 +124,21 @@ export default function OrdersPage() {
                       value={order.status ?? 'pending'}
                       disabled={saving === order.id}
                       onChange={e => handleStatus(order.id!, e.target.value as Order['status'])}
-                      className={`text-[10px] px-2 py-1.5 rounded border bg-transparent
+                      className={`text-xs px-2.5 py-1.5 rounded-md border bg-transparent
                                   outline-none cursor-pointer disabled:opacity-40
                                   ${STATUS_COLOR[order.status ?? 'pending']}`}
                     >
                       {ALL_STATUSES.map(s => (
-                        <option key={s} value={s} className="bg-[#1a2236] text-[#e8e4d8]">
+                        <option key={s} value={s} className="bg-[#1c2538] text-white">
                           {STATUS_LABEL[s]}
                         </option>
                       ))}
                     </select>
                   </div>
-                  <div
-                    className="flex items-center gap-2"
-                    onClick={e => e.stopPropagation()}
-                  >
+                  <div className="flex items-center gap-3" onClick={e => e.stopPropagation()}>
                     <button
                       onClick={() => setExpanded(expanded === order.id ? null : order.id!)}
-                      className="text-[#b5aa96]/30 hover:text-[#b5aa96] transition-colors"
+                      className="text-gray-500 hover:text-white transition-colors"
                       title="Ver detalles"
                     >
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -156,7 +148,7 @@ export default function OrdersPage() {
                     </button>
                     <button
                       onClick={() => handleDelete(order.id!)}
-                      className="text-[#b5aa96]/30 hover:text-red-400 transition-colors"
+                      className="text-gray-500 hover:text-red-400 transition-colors"
                       title="Eliminar"
                     >
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -166,35 +158,35 @@ export default function OrdersPage() {
                   </div>
                 </div>
 
-                {/* Expanded details */}
+                {/* Expanded */}
                 {expanded === order.id && (
-                  <div className="px-6 py-5 bg-[#141926] border-b border-[#b5aa96]/10">
-                    <p className="text-[9px] tracking-[0.3em] uppercase text-[#b5aa96]/40 mb-4">
-                      Detalles del formulario
+                  <div className="px-5 py-5 bg-[#111624] border-b border-white/10">
+                    <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-4">
+                      Datos del formulario
                     </p>
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-4">
                       {Object.entries(order.form_data ?? {}).map(([k, v]) => (
                         <div key={k}>
-                          <p className="text-[9px] tracking-[0.2em] uppercase text-[#b5aa96]/35 mb-0.5">{k}</p>
-                          <p className="text-[12px] text-[#e8e4d8]/70">{v || '—'}</p>
+                          <p className="text-xs text-gray-500 uppercase tracking-wide mb-0.5">{k}</p>
+                          <p className="text-sm text-gray-200">{v || '—'}</p>
                         </div>
                       ))}
                     </div>
-                    <div className="mt-4 pt-4 border-t border-[#b5aa96]/8 flex gap-6">
+                    <div className="mt-4 pt-4 border-t border-white/8 flex gap-6">
                       <div>
-                        <p className="text-[9px] tracking-[0.2em] uppercase text-[#b5aa96]/35 mb-0.5">ID</p>
-                        <p className="text-[11px] text-[#b5aa96]/40 font-mono">{order.id}</p>
+                        <p className="text-xs text-gray-500 uppercase tracking-wide mb-0.5">ID</p>
+                        <p className="text-xs text-gray-500 font-mono">{order.id}</p>
                       </div>
                       <div>
-                        <p className="text-[9px] tracking-[0.2em] uppercase text-[#b5aa96]/35 mb-0.5">Idioma</p>
-                        <p className="text-[11px] text-[#b5aa96]/40 uppercase">{order.lang}</p>
+                        <p className="text-xs text-gray-500 uppercase tracking-wide mb-0.5">Idioma</p>
+                        <p className="text-xs text-gray-400 uppercase">{order.lang}</p>
                       </div>
                     </div>
                   </div>
                 )}
               </div>
             ))}
-          </div>
+          </>
         )}
       </div>
     </div>

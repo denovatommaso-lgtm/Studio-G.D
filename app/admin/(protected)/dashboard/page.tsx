@@ -11,16 +11,45 @@ const STATUS_LABEL: Record<string, string> = {
 }
 
 const STATUS_COLOR: Record<string, string> = {
-  pending:     'bg-amber-400/15 text-amber-300',
-  in_progress: 'bg-blue-400/15 text-blue-300',
-  completed:   'bg-emerald-400/15 text-emerald-300',
-  cancelled:   'bg-red-400/15 text-red-300',
+  pending:     'bg-amber-400/20 text-amber-300 border border-amber-400/30',
+  in_progress: 'bg-blue-400/20 text-blue-300 border border-blue-400/30',
+  completed:   'bg-emerald-400/20 text-emerald-300 border border-emerald-400/30',
+  cancelled:   'bg-red-400/20 text-red-300 border border-red-400/30',
+}
+
+function getGreeting(hour: number) {
+  if (hour < 12) return 'Buenos días'
+  if (hour < 18) return 'Buenas tardes'
+  return 'Buenas noches'
 }
 
 export default function Dashboard() {
-  const [orders,  setOrders]  = useState<Order[]>([])
-  const [loading, setLoading] = useState(true)
+  const [orders,      setOrders]      = useState<Order[]>([])
+  const [loading,     setLoading]     = useState(true)
+  const [displayName, setDisplayName] = useState('')
+  const [time,        setTime]        = useState('')
+  const [dateStr,     setDateStr]     = useState('')
+  const [greeting,    setGreeting]    = useState('')
 
+  // Live clock
+  useEffect(() => {
+    const tick = () => {
+      const now = new Date()
+      setTime(now.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit', second: '2-digit' }))
+      setDateStr(now.toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }))
+      setGreeting(getGreeting(now.getHours()))
+    }
+    tick()
+    const id = setInterval(tick, 1000)
+    return () => clearInterval(id)
+  }, [])
+
+  // Display name from settings
+  useEffect(() => {
+    setDisplayName(localStorage.getItem('admin_display_name') ?? '')
+  }, [])
+
+  // Orders data
   useEffect(() => {
     getOrders()
       .then(setOrders)
@@ -28,12 +57,11 @@ export default function Dashboard() {
       .finally(() => setLoading(false))
   }, [])
 
-  const total       = orders.length
-  const pending     = orders.filter(o => o.status === 'pending' || !o.status).length
-  const inProgress  = orders.filter(o => o.status === 'in_progress').length
-  const completed   = orders.filter(o => o.status === 'completed').length
-
-  const recent = orders.slice(0, 8)
+  const total      = orders.length
+  const pending    = orders.filter(o => o.status === 'pending' || !o.status).length
+  const inProgress = orders.filter(o => o.status === 'in_progress').length
+  const completed  = orders.filter(o => o.status === 'completed').length
+  const recent     = orders.slice(0, 8)
 
   const productCounts = orders.reduce<Record<string, number>>((acc, o) => {
     acc[o.product_name] = (acc[o.product_name] ?? 0) + 1
@@ -42,63 +70,82 @@ export default function Dashboard() {
   const topProduct = Object.entries(productCounts).sort((a, b) => b[1] - a[1])[0]
 
   const stats = [
-    { label: 'Total pedidos',  value: total,      sub: 'histórico',    color: 'text-[#b5aa96]' },
-    { label: 'Pendientes',     value: pending,    sub: 'por atender',  color: 'text-amber-300' },
-    { label: 'En proceso',     value: inProgress, sub: 'en curso',     color: 'text-blue-300'  },
-    { label: 'Completados',    value: completed,  sub: 'entregados',   color: 'text-emerald-300'},
+    { label: 'Total pedidos',  value: total,      color: 'text-white',          sub: 'todos los tiempos' },
+    { label: 'Pendientes',     value: pending,    color: 'text-amber-400',      sub: 'por atender' },
+    { label: 'En proceso',     value: inProgress, color: 'text-blue-400',       sub: 'en curso' },
+    { label: 'Completados',    value: completed,  color: 'text-emerald-400',    sub: 'entregados' },
   ]
 
   return (
-    <div>
-      <div className="mb-8">
-        <h1 className="font-serif font-light text-3xl text-[#e8e4d8] mb-1">Dashboard</h1>
-        <p className="text-[11px] text-[#b5aa96]/50 tracking-wide">Vista general de Studio G.D.</p>
+    <div className="max-w-5xl mx-auto">
+
+      {/* Greeting header */}
+      <div className="mb-8 bg-[#1c2538] border border-white/10 rounded-lg px-6 py-5
+                      flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <p className="text-gray-400 text-sm mb-1">{greeting},</p>
+          <h1 className="text-2xl font-semibold text-white">
+            {displayName
+              ? displayName
+              : <span className="text-gray-400 font-normal italic text-lg">
+                  sin nombre — configúralo en <Link href="/admin/settings" className="underline hover:text-white">Configuración</Link>
+                </span>
+            }
+          </h1>
+        </div>
+        <div className="text-right sm:text-right">
+          <p className="text-3xl font-mono font-light text-white tabular-nums">{time}</p>
+          <p className="text-sm text-gray-400 mt-0.5 capitalize">{dateStr}</p>
+        </div>
       </div>
 
-      {/* Stats */}
+      {/* Stat cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {stats.map(s => (
-          <div key={s.label} className="bg-[#1a2236] border border-[#b5aa96]/10 p-5 rounded">
-            <p className="text-[9px] tracking-[0.3em] uppercase text-[#b5aa96]/45 mb-3">{s.label}</p>
-            <p className={`text-4xl font-serif font-light ${s.color}`}>
+          <div key={s.label} className="bg-[#1c2538] border border-white/10 rounded-lg p-5">
+            <p className="text-xs text-gray-400 mb-3 font-medium uppercase tracking-wide">{s.label}</p>
+            <p className={`text-4xl font-bold ${s.color}`}>
               {loading ? '—' : s.value}
             </p>
-            <p className="text-[10px] text-[#b5aa96]/30 mt-1">{s.sub}</p>
+            <p className="text-xs text-gray-500 mt-1">{s.sub}</p>
           </div>
         ))}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Recent orders */}
-        <div className="lg:col-span-2 bg-[#1a2236] border border-[#b5aa96]/10 rounded">
-          <div className="flex items-center justify-between px-6 py-4 border-b border-[#b5aa96]/10">
-            <h2 className="text-[11px] tracking-[0.25em] uppercase text-[#b5aa96]/70">Pedidos recientes</h2>
-            <Link href="/admin/orders" className="text-[10px] text-[#b5aa96]/40 hover:text-[#b5aa96] transition-colors">
+        <div className="lg:col-span-2 bg-[#1c2538] border border-white/10 rounded-lg overflow-hidden">
+          <div className="flex items-center justify-between px-5 py-4 border-b border-white/10">
+            <h2 className="text-sm font-semibold text-white">Pedidos recientes</h2>
+            <Link href="/admin/orders"
+                  className="text-xs text-blue-400 hover:text-blue-300 transition-colors font-medium">
               Ver todos →
             </Link>
           </div>
 
           {loading ? (
-            <div className="px-6 py-12 text-center text-[#b5aa96]/30 text-sm">Cargando…</div>
+            <div className="px-5 py-12 text-center text-gray-500 text-sm">Cargando…</div>
           ) : recent.length === 0 ? (
-            <div className="px-6 py-12 text-center text-[#b5aa96]/30 text-sm">
-              No hay pedidos aún.{' '}
-              <span className="block text-[10px] mt-1 text-[#b5aa96]/20">
-                Conecta Supabase para empezar a ver datos.
-              </span>
+            <div className="px-5 py-12 text-center">
+              <p className="text-gray-400 text-sm">No hay pedidos aún.</p>
+              <p className="text-gray-600 text-xs mt-1">Conecta Supabase para ver datos.</p>
             </div>
           ) : (
-            <div className="divide-y divide-[#b5aa96]/6">
+            <div className="divide-y divide-white/5">
               {recent.map(order => (
-                <div key={order.id} className="flex items-center gap-4 px-6 py-3.5 hover:bg-[#b5aa96]/3 transition-colors">
+                <div key={order.id}
+                     className="flex items-center gap-4 px-5 py-3 hover:bg-white/3 transition-colors">
                   <div className="flex-1 min-w-0">
-                    <p className="text-[13px] text-[#e8e4d8]/80 truncate">{order.product_name}</p>
-                    <p className="text-[10px] text-[#b5aa96]/40 mt-0.5">
+                    <p className="text-sm text-white font-medium truncate">{order.product_name}</p>
+                    <p className="text-xs text-gray-400 mt-0.5">
                       {order.form_data?.nombre ?? '—'} ·{' '}
-                      {order.created_at ? new Date(order.created_at).toLocaleDateString('es-MX', { day: 'numeric', month: 'short' }) : ''}
+                      {order.created_at
+                        ? new Date(order.created_at).toLocaleDateString('es-MX', { day: 'numeric', month: 'short' })
+                        : ''}
                     </p>
                   </div>
-                  <span className={`text-[9px] tracking-wide px-2 py-1 rounded-full ${STATUS_COLOR[order.status ?? 'pending']}`}>
+                  <span className={`text-xs px-2.5 py-1 rounded-full font-medium
+                                    ${STATUS_COLOR[order.status ?? 'pending']}`}>
                     {STATUS_LABEL[order.status ?? 'pending']}
                   </span>
                 </div>
@@ -107,38 +154,44 @@ export default function Dashboard() {
           )}
         </div>
 
-        {/* Quick info */}
+        {/* Right column */}
         <div className="flex flex-col gap-4">
           {/* Top product */}
-          <div className="bg-[#1a2236] border border-[#b5aa96]/10 rounded p-6">
-            <p className="text-[9px] tracking-[0.3em] uppercase text-[#b5aa96]/45 mb-3">Producto más solicitado</p>
+          <div className="bg-[#1c2538] border border-white/10 rounded-lg p-5">
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">
+              Producto más solicitado
+            </p>
             {topProduct ? (
               <>
-                <p className="font-serif font-light text-xl text-[#e8e4d8] leading-snug">{topProduct[0]}</p>
-                <p className="text-[11px] text-[#b5aa96]/40 mt-2">{topProduct[1]} {topProduct[1] === 1 ? 'pedido' : 'pedidos'}</p>
+                <p className="text-base font-semibold text-white leading-snug">{topProduct[0]}</p>
+                <p className="text-sm text-gray-400 mt-1">
+                  {topProduct[1]} {topProduct[1] === 1 ? 'pedido' : 'pedidos'}
+                </p>
               </>
             ) : (
-              <p className="text-[#b5aa96]/30 text-sm">Sin datos</p>
+              <p className="text-gray-500 text-sm">Sin datos aún</p>
             )}
           </div>
 
           {/* Quick links */}
-          <div className="bg-[#1a2236] border border-[#b5aa96]/10 rounded p-6">
-            <p className="text-[9px] tracking-[0.3em] uppercase text-[#b5aa96]/45 mb-4">Acceso rápido</p>
-            <div className="flex flex-col gap-2">
+          <div className="bg-[#1c2538] border border-white/10 rounded-lg p-5">
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">
+              Acceso rápido
+            </p>
+            <div className="flex flex-col gap-1">
               {[
                 { label: 'Gestionar pedidos', href: '/admin/orders' },
                 { label: 'Ver clientes',      href: '/admin/clients' },
                 { label: 'Analíticas',        href: '/admin/analytics' },
-                { label: 'Productos',         href: '/admin/products' },
+                { label: 'Configuración',     href: '/admin/settings' },
               ].map(l => (
                 <Link
                   key={l.href}
                   href={l.href}
-                  className="text-[12px] text-[#b5aa96]/55 hover:text-[#e8e4d8] transition-colors
-                             flex items-center gap-2 py-1"
+                  className="text-sm text-gray-300 hover:text-white transition-colors
+                             flex items-center gap-2 py-1.5 px-2 rounded hover:bg-white/5"
                 >
-                  <span className="w-1 h-1 rounded-full bg-[#b5aa96]/30 flex-shrink-0" />
+                  <span className="w-1 h-1 rounded-full bg-gray-500 flex-shrink-0" />
                   {l.label}
                 </Link>
               ))}
