@@ -163,8 +163,8 @@ export default function Hero() {
           ref={logoRef}
           className="opacity-0 overflow-hidden"
           style={{
-            width:  'min(460px, 76vw)',
-            height: 'calc(min(460px, 76vw) * 0.24)',
+            width:  'min(620px, 90vw)',
+            height: 'calc(min(620px, 90vw) * 0.24)',
           }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -172,7 +172,7 @@ export default function Hero() {
             src="/assets/logo-main.png"
             alt="Studio G.D. — Crafted with Intention"
             className="logo-invert w-full"
-            style={{ marginTop: 'calc(min(460px, 76vw) * -0.38)' }}
+            style={{ marginTop: 'calc(min(620px, 90vw) * -0.38)' }}
           />
         </div>
 
