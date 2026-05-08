@@ -50,9 +50,12 @@ export default function Servicios() {
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
         >
-          <span className="section-label !text-navy/55">{t('Lo que hacemos', 'What we do')}</span>
-          <h2 className="section-title">
-            {t('Nuestros', 'Our')} <em className="!text-navy/50">{t('servicios', 'services')}</em>
+          <span className="block text-[10px] tracking-[0.35em] uppercase text-navy/60 mb-4">
+            {t('Lo que hacemos', 'What we do')}
+          </span>
+          <h2 className="font-serif font-light leading-tight text-[26px] md:text-[32px] text-navy mb-0">
+            {t('Nuestros', 'Our')}{' '}
+            <span className="text-navy/55">{t('servicios', 'services')}</span>
           </h2>
         </motion.div>
 
