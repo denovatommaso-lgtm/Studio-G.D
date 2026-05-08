@@ -86,20 +86,21 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
 
   const Sidebar = () => (
     <aside className="flex flex-col h-full w-60 bg-[#0d1117] border-r border-white/10">
-      {/* Brand */}
-      <div className="flex items-center gap-3 px-5 py-5 border-b border-white/10">
+      {/* Brand — click to go to main site */}
+      <Link href="/" className="flex items-center gap-3 px-5 py-5 border-b border-white/10
+                                 hover:bg-white/5 transition-colors group">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/assets/isotipo.png"
           alt=""
-          className="w-7 opacity-70"
+          className="w-7 opacity-70 group-hover:opacity-100 transition-opacity"
           style={{ filter: 'brightness(0) invert(1) opacity(0.7)' }}
         />
         <div>
           <p className="text-sm font-medium text-white">Studio G.D.</p>
-          <p className="text-xs text-gray-500 mt-0.5">Panel Admin</p>
+          <p className="text-xs text-gray-500 mt-0.5 group-hover:text-gray-400 transition-colors">Panel Admin</p>
         </div>
-      </div>
+      </Link>
 
       {/* Nav */}
       <nav className="flex-1 py-4 px-3 flex flex-col gap-0.5 overflow-y-auto">
@@ -132,16 +133,6 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
             <p className="text-xs text-gray-300 truncate">{email}</p>
           </div>
         )}
-        <Link
-          href="/"
-          className="flex items-center gap-3 px-3 py-2.5 rounded-md text-sm
-                     text-gray-400 hover:text-white hover:bg-white/5 transition-all"
-        >
-          <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-          </svg>
-          Ver sitio
-        </Link>
         <button
           onClick={logout}
           className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm
