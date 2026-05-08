@@ -98,12 +98,25 @@ export default function Nosotras() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.2 }}
-          className="flex flex-col gap-4"
+          className="flex flex-col gap-4 relative"
         >
+          {/* Decorative estampa — top right corner */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <motion.img
+            src="/assets/estampa2.png"
+            alt=""
+            className="absolute pointer-events-none select-none z-10"
+            style={{ width: 140, top: -28, right: -24, opacity: 0.18 }}
+            initial={{ opacity: 0, rotate: 14, scale: 0.88 }}
+            whileInView={{ opacity: 0.18, rotate: 14, scale: 1 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 1.6, delay: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+          />
+
           <div className="relative w-full overflow-hidden aspect-[4/3]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/assets/nosotras.jpg"
+              src="/assets/9799b8cc-5832-4c4d-bea0-814debca2250.jpg"
               alt="Mariana y Lor"
               className="w-full h-full object-cover object-top"
               style={{ filter: 'sepia(18%) contrast(105%) brightness(0.92)' }}

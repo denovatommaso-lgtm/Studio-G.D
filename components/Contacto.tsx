@@ -21,9 +21,22 @@ export default function Contacto() {
   return (
     <section
       id="contacto"
-      className="bg-cream"
+      className="bg-cream relative overflow-hidden"
       style={{ backgroundImage: "url('/assets/patron.png')", backgroundSize: '320px' }}
     >
+      {/* Estampa — bottom left accent */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <motion.img
+        src="/assets/estampa3.png"
+        alt=""
+        className="absolute pointer-events-none select-none hidden md:block"
+        style={{ width: 260, bottom: -30, left: -40, opacity: 0.15 }}
+        initial={{ opacity: 0, rotate: -12, scale: 0.9 }}
+        whileInView={{ opacity: 0.15, rotate: -12, scale: 1 }}
+        viewport={{ once: true, amount: 0.1 }}
+        transition={{ duration: 1.8, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+      />
+
       <motion.div
         variants={container}
         initial="hidden"

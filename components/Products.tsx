@@ -127,7 +127,20 @@ export default function Products() {
   const { t } = useLang()
 
   return (
-    <section id="productos" className="bg-parchment">
+    <section id="productos" className="bg-parchment relative overflow-hidden">
+
+      {/* Estampa — top right accent */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <motion.img
+        src="/assets/estampa4.png"
+        alt=""
+        className="absolute pointer-events-none select-none hidden md:block"
+        style={{ width: 280, top: 32, right: -40, opacity: 0.12 }}
+        initial={{ opacity: 0, rotate: 18, scale: 0.9 }}
+        whileInView={{ opacity: 0.12, rotate: 18, scale: 1 }}
+        viewport={{ once: true, amount: 0.1 }}
+        transition={{ duration: 1.8, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+      />
 
       {/* ── Header ──────────────────────────────────────────────────────────── */}
       <motion.div

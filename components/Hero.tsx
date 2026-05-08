@@ -37,33 +37,27 @@ export default function Hero() {
         style={{ backgroundImage: "url('/assets/patron.png')", backgroundSize: '320px' }}
       />
 
-      {/* Ghost stamp — top left */}
+      {/* Estampa — top left */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <motion.img
-        src="/assets/stamp-cream.png"
+        src="/assets/estampa1.png"
         alt=""
         className="absolute pointer-events-none select-none"
-        style={{
-          width: 440, top: -70, left: -90,
-          filter: 'brightness(0) invert(1) opacity(0.07)',
-        }}
-        initial={{ opacity: 0, rotate: -20, scale: 0.92 }}
-        animate={{ opacity: 1, rotate: -20, scale: 1 }}
+        style={{ width: 420, top: -60, left: -80, opacity: 0.13 }}
+        initial={{ opacity: 0, rotate: -18, scale: 0.9 }}
+        animate={{ opacity: 0.13, rotate: -18, scale: 1 }}
         transition={{ duration: 2.4, delay: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
       />
 
-      {/* Ghost stamp — bottom right */}
+      {/* Estampa — bottom right */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <motion.img
-        src="/assets/stamp-sage.png"
+        src="/assets/estampa5.png"
         alt=""
         className="absolute pointer-events-none select-none"
-        style={{
-          width: 400, bottom: -50, right: -70,
-          filter: 'brightness(0) invert(1) opacity(0.08)',
-        }}
-        initial={{ opacity: 0, rotate: 15, scale: 0.92 }}
-        animate={{ opacity: 1, rotate: 15, scale: 1 }}
+        style={{ width: 380, bottom: -40, right: -60, opacity: 0.14 }}
+        initial={{ opacity: 0, rotate: 13, scale: 0.9 }}
+        animate={{ opacity: 0.14, rotate: 13, scale: 1 }}
         transition={{ duration: 2.4, delay: 1.0, ease: [0.25, 0.1, 0.25, 1] }}
       />
 
