@@ -1,8 +1,35 @@
 'use client'
-import { useRef, useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useRef, useState, useEffect } from 'react'
+import { motion, AnimatePresence, useInView } from 'framer-motion'
 import { insertOrder } from '@/lib/supabase'
 import { useLang } from '@/context/LangContext'
+
+function TypewriterText({ text, className }: { text: string; className?: string }) {
+  const ref = useRef<HTMLHeadingElement>(null)
+  const isInView = useInView(ref, { once: true, amount: 0.6 })
+  const [displayed, setDisplayed] = useState('')
+
+  useEffect(() => {
+    if (!isInView) return
+    setDisplayed('')
+    let i = 0
+    const id = setInterval(() => {
+      i++
+      setDisplayed(text.slice(0, i))
+      if (i >= text.length) clearInterval(id)
+    }, 38)
+    return () => clearInterval(id)
+  }, [isInView, text])
+
+  return (
+    <h3 ref={ref} className={className}>
+      {displayed || ' '}
+      {isInView && displayed.length < text.length && (
+        <span className="inline-block w-[1.5px] h-[0.8em] bg-navy/50 ml-0.5 align-middle animate-pulse" />
+      )}
+    </h3>
+  )
+}
 
 export interface ProductField {
   name: string
@@ -107,7 +134,7 @@ export default function ProductCard({ product }: Props) {
         {/* Ghost number — desktop */}
         <span
           className="hidden md:block font-serif text-[100px] leading-none
-                     text-navy/[0.055] select-none w-[110px] text-right flex-shrink-0"
+                     text-navy/[0.18] select-none w-[110px] text-right flex-shrink-0"
         >
           {product.number}
         </span>
@@ -121,10 +148,11 @@ export default function ProductCard({ product }: Props) {
               {product.number}
             </span>
           </div>
-          <h3 className="font-serif text-[26px] md:text-[30px] font-normal text-navy
-                         leading-tight mb-3">
-            {name}
-          </h3>
+          <TypewriterText
+            text={name}
+            className="font-serif text-[26px] md:text-[30px] font-normal text-navy
+                       leading-tight mb-3"
+          />
           <p className="text-[13px] leading-[1.85] text-navy/50 font-light max-w-[540px]">
             {desc}
           </p>
@@ -134,13 +162,13 @@ export default function ProductCard({ product }: Props) {
         <div className="flex-shrink-0">
           <button
             onClick={togglePanel}
-            className="group inline-flex items-center gap-2.5
-                       text-[10px] tracking-[0.25em] uppercase font-sans text-navy"
+            className="inline-flex items-center gap-3
+                       border border-navy/40 hover:border-navy hover:bg-navy
+                       text-navy hover:text-cream
+                       text-[9px] tracking-[0.28em] uppercase font-sans
+                       px-7 py-3.5 transition-all duration-300"
           >
-            <span className="border-b border-navy/35 pb-px
-                             group-hover:border-navy transition-colors duration-200">
-              {open ? t('Cerrar', 'Close') : t('Personalizar', 'Customize')}
-            </span>
+            <span>{open ? t('Cerrar', 'Close') : t('Personalizar', 'Customize')}</span>
             <motion.span
               animate={{ rotate: open ? 180 : 0 }}
               transition={{ duration: 0.32, ease: [0.25, 0.1, 0.25, 1] }}
