@@ -70,10 +70,6 @@ export default function Nosotras() {
             )}
           </p>
 
-          <span className="font-script text-4xl text-taupe block mb-8">
-            Mariana &amp; Lorenza
-          </span>
-
           <motion.ul
             variants={listContainer}
             initial="hidden"
@@ -158,14 +154,14 @@ export default function Nosotras() {
               />
             </div>
 
-            {/* Studio G.D logo in polaroid tab */}
-            <div className="flex justify-center items-center" style={{ marginTop: '6px', height: '50px' }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/assets/logo-main.png"
-                alt="Studio G.D."
-                style={{ height: '46px', width: 'auto', filter: 'brightness(0) sepia(1) saturate(3) hue-rotate(340deg) brightness(0.55)', opacity: 0.70 }}
-              />
+            {/* Names in polaroid tab */}
+            <div className="flex justify-center items-center" style={{ marginTop: '8px', height: '44px' }}>
+              <span
+                className="font-script"
+                style={{ fontSize: '26px', color: '#7a6a58', letterSpacing: '0.01em' }}
+              >
+                Mariana &amp; Lorenza
+              </span>
             </div>
           </div>
         </motion.div>
