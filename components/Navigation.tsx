@@ -29,18 +29,18 @@ export default function Navigation() {
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1], delay: 0.2 }}
-        className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between
+        className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between overflow-visible
                     transition-all duration-500
                     ${scrolled
                       ? 'bg-navy/95 backdrop-blur-md py-2 px-6 md:px-12'
                       : 'bg-transparent py-3 px-6 md:px-12'}`}
       >
-        <a href="#hero" className="flex-shrink-0">
+        <a href="#hero" className="absolute top-0 left-6 md:left-12">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/assets/logo-main.png"
             alt="Studio G.D."
-            className="h-14 w-auto logo-invert transition-opacity hover:opacity-100"
+            className="h-40 w-auto logo-invert transition-opacity hover:opacity-100"
             style={{ opacity: 0.95 }}
           />
         </a>
@@ -61,7 +61,7 @@ export default function Navigation() {
         </ul>
 
         {/* Right: lang toggle + hamburger */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 ml-auto">
           <button
             onClick={toggle}
             className="flex items-center gap-0 border border-cream/25 hover:border-cream/50
