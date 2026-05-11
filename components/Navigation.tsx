@@ -32,15 +32,15 @@ export default function Navigation() {
         className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between
                     transition-all duration-500
                     ${scrolled
-                      ? 'bg-navy/95 backdrop-blur-md py-3 px-6 md:px-12'
-                      : 'bg-transparent py-5 px-6 md:px-12'}`}
+                      ? 'bg-navy/95 backdrop-blur-md py-2 px-6 md:px-12'
+                      : 'bg-transparent py-3 px-6 md:px-12'}`}
       >
         <a href="#hero" className="flex-shrink-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/assets/logo-main.png"
             alt="Studio G.D."
-            className="h-40 w-auto logo-invert transition-opacity hover:opacity-100"
+            className="h-14 w-auto logo-invert transition-opacity hover:opacity-100"
             style={{ opacity: 0.95 }}
           />
         </a>
